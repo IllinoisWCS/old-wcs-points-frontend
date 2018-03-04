@@ -1,0 +1,24 @@
+.Events {
+    &__event {
+        border-top-color: #E46167 !important;
+        border-top-width: 2px !important;
+    }
+
+    &__attendees {
+        border-top-color: #64C7CC !important;
+        border-top-width: 2px !important;
+    }
+
+    &__statistic {
+        float: right !important;
+    }
+
+    &__flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__flexItem {
+
+    }
+}
