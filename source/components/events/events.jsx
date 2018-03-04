@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Accordion, Icon, Label, Statistic } from 'semantic-ui-react'
+import { Segment, Accordion, Icon, Label, Statistic, Card } from 'semantic-ui-react'
 
 import styles from './events.scss'
 
@@ -83,10 +83,15 @@ class Events extends Component {
         })
 
         return(
-            <div className="Events">
+            <div>
                 <h1>Events</h1>
 
-                { events }
+                <Card className="Events" fluid>
+                  <Card.Content>
+
+                    { events }
+                  </Card.Content>
+                </Card>
             </div>
         )
     }

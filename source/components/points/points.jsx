@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, Segment, Statistic } from 'semantic-ui-react'
+import { Form, Input, Button, Segment, Statistic, Card } from 'semantic-ui-react'
 
 import axios from 'axios'
 
@@ -74,18 +74,23 @@ class Points extends Component {
         })
 
         return(
-            <div className="Points">
+            <div>
                 <h1>Points</h1>
+                <Card fluid className="Points">
+                  <Card.Content>
 
-                <br />
 
-                <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
-                <Button onClick={this.handleSubmit} />
+                    <br />
 
-                <p>{ this.state.message }</p>
+                    <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                    <br />
+                    <Button onClick={this.handleSubmit} fluid>Check Points</Button>
 
-                { events }
+                    <p>{ this.state.message }</p>
 
+                    { events }
+                  </Card.Content>
+                </Card>
             </div>
         )
     }

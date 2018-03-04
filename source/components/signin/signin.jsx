@@ -16,7 +16,8 @@ class SignIn extends Component {
             events: [],
             event_id: '',
             value: '',
-            error: ''
+            error: '',
+            date: new Date(Date.now()).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"})
         };
 
         this.handleEventSelect = this.handleEventSelect.bind(this);
@@ -25,13 +26,24 @@ class SignIn extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit() {
-
+    handleSubmit(type) {
         // Validate netid here and set error state if there's problems
 
-        axios.put('http://127.0.0.1:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
-            console.log(response)
-        });
+        if (type === 'event') {
+            axios.put('http://127.0.0.1:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+                console.log(response)
+            });
+        } else if (type === 'committee' || type === 'office_hours'){
+            const update = {
+                netid: this.state.value,
+                type: type,
+                date: this.state.date
+            }
+
+            axios.put('http://127.0.0.1:3000/api/users/' + this.state.value, update).then( (response) => {
+                console.log(response);
+            })
+        }
 
     }
 
@@ -108,20 +120,34 @@ class SignIn extends Component {
                 <br />
                 <h4>NetId</h4>
 
-                <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
 
                 <br />
                 { this.state.error }
-                <Button fluid onClick={this.handleSubmit}>Sign-in</Button>
+                <Button fluid onClick={() => this.handleSubmit('event')}>Sign-in</Button>
 
             </Tab.Pane> },
           { menuItem: 'Committee', render: () =>
             <Tab.Pane attached={false}>
 
+                <h4>Date</h4>
+                <Input fluid value={this.state.date} onChange={this.handleChange} />
+                <br />
+                <h4>NetId</h4>
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <br />
+                <Button fluid onClick={() => this.handleSubmit('committee')}>Sign-in</Button>
+
             </Tab.Pane> },
           { menuItem: 'Office Hour', render: () =>
             <Tab.Pane attached={false}>
-
+                <h4>Date</h4>
+                <Input fluid value={this.state.date} onChange={this.handleChange} />
+                <br />
+                <h4>NetId</h4>
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <br />
+                <Button fluid onClick={() => this.handleSubmit('office_hours')}>Sign-in</Button>
             </Tab.Pane> },
         ]
 
