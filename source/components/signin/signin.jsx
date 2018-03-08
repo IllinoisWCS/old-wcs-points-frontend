@@ -3,7 +3,7 @@ import { Tab, Dropdown, Input, Button, Icon, Link } from 'semantic-ui-react'
 
 import NewEvent from '../newevent/newevent.jsx'
 
-import styles from './SignIn.scss'
+import styles from './signin.scss'
 
 import axios from 'axios'
 
@@ -30,7 +30,7 @@ class SignIn extends Component {
         // Validate netid here and set error state if there's problems
 
         if (type === 'event') {
-            axios.put('http://127.0.0.1:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+            axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
                 console.log(response)
             });
         } else if (type === 'committee' || type === 'office_hours'){
@@ -40,7 +40,7 @@ class SignIn extends Component {
                 date: this.state.date
             }
 
-            axios.put('http://127.0.0.1:3000/api/users/' + this.state.value, update).then( (response) => {
+            axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
             })
         }
@@ -65,7 +65,7 @@ class SignIn extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://127.0.0.1:3000/api/events').then( (response) => {
+        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
             let events = response.data.data;
             events.sort(function(a, b) {
                 var nameA = a.name.toUpperCase(); // ignore upper and lowercase
