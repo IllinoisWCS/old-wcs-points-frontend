@@ -20,7 +20,7 @@ class Points extends Component {
     }
 
     handleSubmit() {
-        axios.get('https://points-api.illinoiswcs.org/api/users/' + this.state.value).then( (response) => {
+        axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value).then( (response) => {
             const events = response.data.data.attended_events;
             const committees = response.data.data.committees;
             const office_hours = response.data.data.office_hours;
