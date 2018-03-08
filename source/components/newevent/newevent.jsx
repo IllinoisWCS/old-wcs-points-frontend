@@ -12,12 +12,14 @@ class NewEvent extends Component {
         this.state = {
             name: '',
             points: 1,
-            date: ''
+            date: '',
+            pw: ''
         }
 
         this.handleName = this.handleName.bind(this);
         this.handlePoints = this.handlePoints.bind(this);
         this.handleDate = this.handleDate.bind(this);
+        this.handlePw = this.handlePw.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -30,6 +32,9 @@ class NewEvent extends Component {
     }
     handleDate(event) {
         this.setState({date: event.target.value});
+    }
+    handlePw(event) {
+        this.setState({pw: event.target.value});
     }
 
     handleSubmit() {
@@ -60,6 +65,10 @@ class NewEvent extends Component {
 
                     <h4>Event Date</h4>
                     <Input fluid placeholder='i.e. DD/MM/YY or DD-MM-YY or January 1, 2018' value={this.state.date} onChange={this.handleDate} />
+                    <br />
+
+                    <h4>Password</h4>
+                    <Input fluid placeholder=';)' value={this.state.pw} onChange={this.handlePw} />
                     <br />
 
                     <Button fluid onClick={this.handleSubmit}>Create Event</Button>
