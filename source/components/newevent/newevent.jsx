@@ -39,7 +39,7 @@ class NewEvent extends Component {
             date: this.state.date
         };
 
-        axios.post('http://127.0.0.1:3000/api/events', newEvent).then( (response) => {
+        axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
             console.log(response);
         })
     }
