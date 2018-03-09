@@ -23,6 +23,8 @@ class SignIn extends Component {
         this.handleEventSelect = this.handleEventSelect.bind(this);
         this.changeMode = this.changeMode.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleEnterEvent = this.handleEnterEvent.bind(this);
+        this.handleEnterCommitteeOH = this.handleEnterCommitteeOH.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -30,9 +32,9 @@ class SignIn extends Component {
         // Validate netid here and set error state if there's problems
 
         if (type === 'event') {
-            axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
-                console.log(response)
-            });
+        axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+            console.log(response)
+        });
         } else if (type === 'committee' || type === 'office_hours'){
             const update = {
                 netid: this.state.value,
@@ -45,6 +47,27 @@ class SignIn extends Component {
             })
         }
 
+    }
+
+    handleEnterEvent(tgt) {
+      if (tgt.charCode === 13) {
+      axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+          console.log(response)
+      });
+      }
+    }
+
+    handleEnterCommitteeOH(tgt) {
+      if (tgt.charCode === 13) {
+        const update = {
+            netid: this.state.value,
+            date: this.state.date
+        }
+
+        axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
+            console.log(response);
+        })
+      }
     }
 
     handleChange(event) {
@@ -113,6 +136,7 @@ class SignIn extends Component {
                     icon='calendar'
                     options={eventOptions}
                     onChange={this.handleEventSelect}
+                    onKeyPress={this.handleEnterEvent}
                     search
                     value={this.state.event_id}
                     text={'Select an Event'}
@@ -120,7 +144,7 @@ class SignIn extends Component {
                 <br />
                 <h4>NetId</h4>
 
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterEvent}/>
 
                 <br />
                 { this.state.error }
@@ -131,10 +155,10 @@ class SignIn extends Component {
             <Tab.Pane attached={false}>
 
                 <h4>Date</h4>
-                <Input fluid value={this.state.date} onChange={this.handleChange} />
+                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
                 <br />
                 <h4>NetId</h4>
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('committee')}>Sign-in</Button>
 
@@ -142,10 +166,10 @@ class SignIn extends Component {
           { menuItem: 'Office Hour', render: () =>
             <Tab.Pane attached={false}>
                 <h4>Date</h4>
-                <Input fluid value={this.state.date} onChange={this.handleChange} />
+                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
                 <br />
                 <h4>NetId</h4>
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('office_hours')}>Sign-in</Button>
             </Tab.Pane> },
