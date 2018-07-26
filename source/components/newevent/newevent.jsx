@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Card, Button } from 'semantic-ui-react'
+import Notifications, {notify} from 'react-notify-toast';
 
 import styles from './newevent.scss'
 
@@ -39,16 +40,7 @@ class NewEvent extends Component {
     }
     handleEnter(tgt) {
       if (tgt.charCode === 13) {
-        let newEvent = {
-            name: this.state.name,
-            points: this.state.points,
-            date: this.state.date,
-            pw: this.state.pw
-        };
-
-        axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
-            console.log(response);
-        })
+        this.handleSubmit();
       }
     }
 
@@ -62,7 +54,17 @@ class NewEvent extends Component {
 
         axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
             console.log(response);
-        })
+            this.handleStatus(response);
+        }).catch(e => {
+            this.handleStatus(e.response);
+        });
+    }
+
+    handleStatus(response) {
+      if (response.status === 201)
+        notify.show(`event ${response.data.data.name} was created`, "success")
+      else if (response.status === 500)
+        notify.show("please try again", "error");
     }
 
     componentWillMount() {
@@ -71,6 +73,7 @@ class NewEvent extends Component {
     render() {
         return(
             <Card fluid className="NewEvent">
+              <Notifications />
                 <Card.Content>
                     <h4>Event Name</h4>
                     <Input fluid placeholder='i.e. Google Tech Talk' value={this.state.name} onChange={this.handleName} onKeyPress={this.handleEnter}/>

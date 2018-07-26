@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Tab, Dropdown, Input, Button, Icon, Link } from 'semantic-ui-react'
+import Notifications, {notify} from 'react-notify-toast';
 
 import NewEvent from '../newevent/newevent.jsx'
 
@@ -14,6 +15,7 @@ class SignIn extends Component {
         this.state = {
             mode: true,
             events: [],
+            event_name: '',
             event_id: '',
             value: '',
             error: '',
@@ -31,7 +33,6 @@ class SignIn extends Component {
 
     handleSubmit(type) {
         // Validate netid here and set error state if there's problems
-
         if (type === 'event') {
           axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
               console.log(response)
@@ -45,8 +46,20 @@ class SignIn extends Component {
 
             axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
-            })
+                this.handleStatus(response);
+            }).catch(e => {
+                this.handleStatus(e.response);
+            });
         }
+    }
+
+    handleStatus(response) {
+      if (response.status === 200)
+        notify.show(`hello ${response.data.data.netid}!`, "success")
+      else if (response.status === 404)
+        notify.show("invalid netid", "error")
+      else if (response.status === 500)
+        notify.show("server error!", "error");
     }
 
     handleEnterEvent(tgt) {
@@ -75,6 +88,10 @@ class SignIn extends Component {
         const event_id = data.value;
         this.setState({
             event_id: event_id
+        })
+
+        this.setState({
+          event_name: data.text
         })
     }
 
@@ -136,7 +153,8 @@ class SignIn extends Component {
                     onKeyPress={this.handleEnterEvent}
                     search
                     value={this.state.event_id}
-                    text={'Select an Event'}
+                    text={this.state.event_name}
+                    default={'Select an Event'}
                 />
                 <br />
                 <h4>NetId</h4>
@@ -180,7 +198,7 @@ class SignIn extends Component {
                 </Button>
                 <h1>Sign-in</h1>
                 <br />
-
+                <Notifications />
                 { this.state.mode ? <Tab menu={{ secondary: true, pointing: true }} panes={panes} /> : <NewEvent /> }
 
             </div>
