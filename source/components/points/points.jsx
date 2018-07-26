@@ -17,6 +17,7 @@ class Points extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
     }
 
     handleSubmit() {
@@ -41,6 +42,12 @@ class Points extends Component {
                 events: events
             });
         });
+    }
+
+    handleEnter(tgt) {
+      if (tgt.charCode === 13) {
+        this.handleSubmit();
+      }
     }
 
     handleChange(event) {
@@ -82,7 +89,7 @@ class Points extends Component {
 
                     <br />
 
-                    <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} />
+                    <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnter}/>
                     <br />
                     <Button onClick={this.handleSubmit} fluid>Check Points</Button>
 
