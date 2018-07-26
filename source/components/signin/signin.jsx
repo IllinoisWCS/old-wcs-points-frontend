@@ -24,7 +24,8 @@ class SignIn extends Component {
         this.changeMode = this.changeMode.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleEnterEvent = this.handleEnterEvent.bind(this);
-        this.handleEnterCommitteeOH = this.handleEnterCommitteeOH.bind(this);
+        this.handleEnterCommittee = this.handleEnterCommittee.bind(this);
+        this.handleEnterOH = this.handleEnterOH.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -32,9 +33,9 @@ class SignIn extends Component {
         // Validate netid here and set error state if there's problems
 
         if (type === 'event') {
-        axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
-            console.log(response)
-        });
+          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+              console.log(response)
+          });
         } else if (type === 'committee' || type === 'office_hours'){
             const update = {
                 netid: this.state.value,
@@ -46,27 +47,23 @@ class SignIn extends Component {
                 console.log(response);
             })
         }
-
     }
 
     handleEnterEvent(tgt) {
       if (tgt.charCode === 13) {
-      axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
-          console.log(response)
-      });
+        this.handleSubmit('event');
       }
     }
 
-    handleEnterCommitteeOH(tgt) {
+    handleEnterCommittee(tgt) {
       if (tgt.charCode === 13) {
-        const update = {
-            netid: this.state.value,
-            date: this.state.date
-        }
+        this.handleSubmit('committee');
+      }
+    }
 
-        axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
-            console.log(response);
-        })
+    handleEnterOH(tgt) {
+      if (tgt.charCode === 13) {
+        this.handleSubmit('office_hours');
       }
     }
 
@@ -155,10 +152,10 @@ class SignIn extends Component {
             <Tab.Pane attached={false}>
 
                 <h4>Date</h4>
-                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
+                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterCommittee}/>
                 <br />
                 <h4>NetId</h4>
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterCommittee}/>
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('committee')}>Sign-in</Button>
 
@@ -166,10 +163,10 @@ class SignIn extends Component {
           { menuItem: 'Office Hour', render: () =>
             <Tab.Pane attached={false}>
                 <h4>Date</h4>
-                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
+                <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterOH}/>
                 <br />
                 <h4>NetId</h4>
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterCommitteeOH}/>
+                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterOH}/>
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('office_hours')}>Sign-in</Button>
             </Tab.Pane> },
