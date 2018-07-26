@@ -39,16 +39,7 @@ class NewEvent extends Component {
     }
     handleEnter(tgt) {
       if (tgt.charCode === 13) {
-        let newEvent = {
-            name: this.state.name,
-            points: this.state.points,
-            date: this.state.date,
-            pw: this.state.pw
-        };
-
-        axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
-            console.log(response);
-        })
+        this.handleSubmit();
       }
     }
 
