@@ -17,6 +17,7 @@ class SignIn extends Component {
             events: [],
             event_name: '',
             event_id: '',
+            event_key: '',
             value: '',
             error: '',
             date: new Date(Date.now()).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"})
@@ -34,7 +35,7 @@ class SignIn extends Component {
     handleSubmit(type) {
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
-          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value }).then( (response) => {
+          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response)
           });
         } else if (type === 'committee' || type === 'office_hours'){
@@ -82,6 +83,10 @@ class SignIn extends Component {
 
     handleChange(event) {
         this.setState({value: event.target.value});
+    }
+
+    handleChangeKey(event) {
+      this.setState({event_key: event.target.event_key});
     }
 
     handleEventSelect(e, data) {
@@ -160,6 +165,12 @@ class SignIn extends Component {
                 <h4>NetId</h4>
 
                 <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterEvent}/>
+
+                <br />
+
+                <h4>Event Key</h4>
+
+                <Input fluid placeholder='Enter the event key...' value={this.state.event_key} onChange={this.handleChangeKey} onKeyPress={this.handleEnterEvent}/>
 
                 <br />
                 { this.state.error }
