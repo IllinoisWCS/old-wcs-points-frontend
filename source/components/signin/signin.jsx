@@ -30,13 +30,17 @@ class SignIn extends Component {
         this.handleEnterCommittee = this.handleEnterCommittee.bind(this);
         this.handleEnterOH = this.handleEnterOH.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChangeKey = this.handleChangeKey.bind(this);
     }
 
     handleSubmit(type) {
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
           axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
-              console.log(response)
+              console.log(response);
+              this.handleStatus(response);
+          }).catch(e => {
+              this.handleStatus(e.response);
           });
         } else if (type === 'committee' || type === 'office_hours'){
             const update = {
@@ -55,8 +59,8 @@ class SignIn extends Component {
     }
 
     handleStatus(response) {
-      if (response.status === 200)
-        notify.show(`hello ${response.data.data.netid}!`, "success")
+      if (response.status === 200 || response.status === 201)
+        notify.show("welcome!", "success")
       else if (response.status === 404)
         notify.show("invalid netid", "error")
       else if (response.status === 500)
@@ -86,7 +90,8 @@ class SignIn extends Component {
     }
 
     handleChangeKey(event) {
-      this.setState({event_key: event.target.event_key});
+      console.log(event.target.value);
+      this.setState({event_key: event.target.value});
     }
 
     handleEventSelect(e, data) {
