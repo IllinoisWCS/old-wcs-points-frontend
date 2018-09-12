@@ -90,7 +90,6 @@ class SignIn extends Component {
     }
 
     handleChangeKey(event) {
-      console.log(event.target.value);
       this.setState({event_key: event.target.value});
     }
 
