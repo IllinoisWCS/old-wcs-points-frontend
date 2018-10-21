@@ -29,6 +29,7 @@ class SignIn extends Component {
         this.handleEnterEvent = this.handleEnterEvent.bind(this);
         this.handleEnterCommittee = this.handleEnterCommittee.bind(this);
         this.handleEnterOH = this.handleEnterOH.bind(this);
+        this.handlEnterGWC = this.handleEnterGWC.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeKey = this.handleChangeKey.bind(this);
     }
@@ -42,7 +43,7 @@ class SignIn extends Component {
           }).catch(e => {
               this.handleStatus(e.response);
           });
-        } else if (type === 'committee' || type === 'office_hours'){
+        } else if (type === 'committee' || type === 'office_hours' || type == 'gwc'){
             const update = {
                 netid: this.state.value,
                 type: type,
@@ -82,6 +83,12 @@ class SignIn extends Component {
     handleEnterOH(tgt) {
       if (tgt.charCode === 13) {
         this.handleSubmit('office_hours');
+      }
+    }
+
+    handleEnterGWC(tgt) {
+      if (tgt.charCode === 13) {
+        this.handleSubmit('gwc');
       }
     }
 
@@ -203,6 +210,16 @@ class SignIn extends Component {
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('office_hours')}>Sign-in</Button>
             </Tab.Pane> },
+            { menuItem: 'Girls Who Code', render: () =>
+              <Tab.Pane attached={false}>
+                  <h4>Date</h4>
+                  <Input fluid value={this.state.date} onChange={this.handleChange} onKeyPress={this.handleEnterGWC}/>
+                  <br />
+                  <h4>NetId</h4>
+                  <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterGWC}/>
+                  <br />
+                  <Button fluid onClick={() => this.handleSubmit('gwc')}>Sign-in</Button>
+              </Tab.Pane> },
         ]
 
         return(
