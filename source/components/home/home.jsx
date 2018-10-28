@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 import styles from './home.scss'
-
 import Events from '../events/events.jsx'
 import Points from '../points/points.jsx'
 import SignIn from '../signin/signin.jsx'

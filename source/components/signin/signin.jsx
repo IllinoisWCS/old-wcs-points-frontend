@@ -43,7 +43,7 @@ class SignIn extends Component {
           }).catch(e => {
               this.handleStatus(e.response);
           });
-        } else if (type === 'committee' || type === 'office_hours' || type == 'gwc'){
+        } else if (type === 'committee' || type === 'office_hours' || type === 'gwc'){
             const update = {
                 netid: this.state.value,
                 type: type,
@@ -63,7 +63,7 @@ class SignIn extends Component {
       if (response.status === 200 || response.status === 201)
         notify.show("welcome!", "success")
       else if (response.status === 404)
-        notify.show("invalid netid", "error")
+        notify.show("invalid netid or password", "error")
       else if (response.status === 500)
         notify.show("server error!", "error");
     }
@@ -200,6 +200,7 @@ class SignIn extends Component {
                 <Button fluid onClick={() => this.handleSubmit('committee')}>Sign-in</Button>
 
             </Tab.Pane> },
+
           { menuItem: 'Office Hour', render: () =>
             <Tab.Pane attached={false}>
                 <h4>Date</h4>
@@ -210,6 +211,7 @@ class SignIn extends Component {
                 <br />
                 <Button fluid onClick={() => this.handleSubmit('office_hours')}>Sign-in</Button>
             </Tab.Pane> },
+
             { menuItem: 'Girls Who Code', render: () =>
               <Tab.Pane attached={false}>
                   <h4>Date</h4>
