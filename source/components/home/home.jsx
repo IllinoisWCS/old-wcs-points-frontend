@@ -15,16 +15,19 @@ class Home extends Component {
                     <div className="Home__leftNav">
                         <img src="./assets/logo.png" />
                         <div className="Home__flex">
-                            <Link className="Home__flexItem" to="/">Events</Link>
+                            <Link className="Home__flexItem" to="/">Sign-in</Link>
                             <Link className="Home__flexItem" to="/points">Points</Link>
-                            <Link className="Home__flexItem" to="/signin">Sign-in</Link>
+                            <Link className="Home__flexItem" to="/events">Events</Link>
+                            
+                            
                         </div>
                     </div>
                     <div className="Home__content">
                         <div>
-                            <Route exact path="/" component={Events}/>
+                            <Route exact path="/" component={SignIn}/>
                             <Route exact path="/points" component={Points}/>
-                            <Route exact path="/signin" component={SignIn}/>
+                            <Route exact path="/events" component={Events}/>
+                            
                         </div>
                     </div>
                 </div>
