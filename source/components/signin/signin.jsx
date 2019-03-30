@@ -37,7 +37,7 @@ class SignIn extends Component {
     handleSubmit(type) {
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
-          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
+          axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response);
               this.handleStatus(response);
           }).catch(e => {
@@ -50,7 +50,7 @@ class SignIn extends Component {
                 date: this.state.date
             }
 
-            axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
+            axios.put('http://localhost:3000/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
                 this.handleStatus(response);
             }).catch(e => {
@@ -60,10 +60,11 @@ class SignIn extends Component {
     }
 
     handleStatus(response) {
-      if (response.status === 200 || response.status === 201)
-        notify.show("welcome!", "success")
+      console.log(response.data.message)
+      if (response.status === 200)
+        notify.show(`hello ${response.data.data.netid}!`, "success")
       else if (response.status === 404)
-        notify.show("invalid netid or password", "error")
+        notify.show(response.data.message, "error")
       else if (response.status === 500)
         notify.show("server error!", "error");
     }
@@ -118,7 +119,7 @@ class SignIn extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
+        axios.get('http://localhost:3000/api/events').then( (response) => {
             let events = response.data.data;
             events.sort(function(a, b) {
                 var nameA = a.name.toUpperCase(); // ignore upper and lowercase
