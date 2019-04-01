@@ -1,0 +1,43 @@
+.Events {
+    &__event {
+      border-top-color: #e36166 !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__corp {
+      border-top-color: #66c7cb !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__gm {
+      border-top-color: #8789bf !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__techTeam {
+      border-top-color: #f99157 !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__outreach {
+      border-top-color: #ffcc66 !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__mentoring {
+      border-top-color: #99cc99 !important;
+      border-top-width: 2px !important;
+    }
+  
+    &__statistic {
+      float: right !important;
+    }
+  
+    &__flex {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    &__flexItem {
+    }
+  }

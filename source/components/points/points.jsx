@@ -30,6 +30,21 @@ class Points extends Component {
             let committee_points = committees.length * 0.5;
             let office_hour_points = office_hours.length * 0.5;
 
+            // sort events from most to least recent
+            events.sort(function(a, b) {
+                var dateA = new Date(a.date).getTime();
+                var dateB = new Date(b.date).getTime();
+                if (dateA > dateB) {
+                  return -1;
+                }
+                if (dateA < dateB) {
+                  return 1;
+                }
+
+                // names must be equal
+                return 0;
+            });
+
             events.forEach( (event) => {
                 event_points += event.points
             });
@@ -58,27 +73,150 @@ class Points extends Component {
 
         const events = this.state.events.map( (event) => {
 
-            return(
-                <Segment className="Events__event" padded>
-
-                    <div className="Events__flex">
-                        <div className="Events__flexItem">
-
-                            <h3>{event.name}</h3>
-
-                            <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
-
+            
+            if (event.category === "Corporate") {
+                return(
+                    <Segment className="Events__corp" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
                         </div>
-                        <div className="Events__flexItem">
-                            <Statistic className="Events_statistic" size='tiny'>
-                              <Statistic.Value>{event.points}</Statistic.Value>
-                              <Statistic.Label>Points Earned</Statistic.Label>
-                            </Statistic>
+                    </Segment>
+                )
+              } else if (event.category === "General Meeting") {
+                return(
+                    <Segment className="Events__gm" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
                         </div>
-                    </div>
-                </Segment>
-            )
-        })
+                    </Segment>
+                )
+              } else if (event.category === "Tech Team") {
+                return(
+                    <Segment className="Events__techTeam" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
+                        </div>
+                    </Segment>
+                )
+              } else if (event.category === "Social") {
+                return(
+                    <Segment className="Events__social" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
+                        </div>
+                    </Segment>
+                )
+              } else if (event.category === "Mentoring") {
+                return(
+                    <Segment className="Events__mentoring" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
+                        </div>
+                    </Segment>
+                )
+              } else if (event.category === "Outreach") {
+                return(
+                    <Segment className="Events__outreach" padded>
+  
+                        <div className="Events__flex">
+                            <div className="Events__flexItem">
+  
+                                <h3>{event.name}</h3>
+  
+                                <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                            </div>
+                            <div className="Events__flexItem">
+                                <Statistic className="Events_statistic" size='tiny'>
+                                  <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                  <Statistic.Label>Attended</Statistic.Label>
+                                </Statistic>
+                            </div>
+                        </div>
+                    </Segment>
+                )
+              } else {
+  
+              return(
+                  <Segment className="Events__event" padded>
+  
+                      <div className="Events__flex">
+                          <div className="Events__flexItem">
+  
+                              <h3>{event.name}</h3>
+  
+                              <h5 className="muted">{ new Date(event.date).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) }</h5>
+                          </div>
+                          <div className="Events__flexItem">
+                              <Statistic className="Events_statistic" size='tiny'>
+                                <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                <Statistic.Label>Attended</Statistic.Label>
+                              </Statistic>
+                          </div>
+                      </div>
+                  </Segment>
+              )
+            }
+          })
 
         return(
             <div>
@@ -93,7 +231,7 @@ class Points extends Component {
                     <br />
                     <Button onClick={this.handleSubmit} fluid>Check Points</Button>
 
-                    <p>{ this.state.message }</p>
+                    <h3>{ this.state.message }</h3>
 
                     { events }
                   </Card.Content>
