@@ -50,7 +50,7 @@ class Points extends Component {
             });
 
             const total_points = event_points + committee_points + office_hour_points;
-            const message = `${this.state.value} has ${total_points} total points. (${event_points} event points, ${committee_points} committee points, and ${office_hour_points} office hour points)`
+            const message = `You have ${total_points} total points. (${event_points} event points, ${committee_points} committee points, and ${office_hour_points} office hour points)`
 
             this.setState({
                 message: message,
@@ -230,8 +230,10 @@ class Points extends Component {
                     <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnter}/>
                     <br />
                     <Button onClick={this.handleSubmit} fluid>Check Points</Button>
-
-                    <h3>{ this.state.message }</h3>
+                    <br/>
+                    <div className = "points-message">
+                        <h3>{ this.state.message }</h3>
+                    </div>
 
                     { events }
                   </Card.Content>
