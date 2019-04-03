@@ -35,9 +35,10 @@ class SignIn extends Component {
     }
 
     handleSubmit(type) {
+        // production url: 'http://points-api.illinoiswcs.org/api/'
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
-          axios.put('http://points-api.illinoiswcs.org/api/events' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
+          axios.put("http://points-api.illinoiswcs.org/api/events/" + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response);
               this.handleStatus(response);
           }).catch(e => {
@@ -119,7 +120,7 @@ class SignIn extends Component {
     }
 
     componentWillMount() {
-        axios.get("http://points-api.illinoiswcs.org/api/events").then( (response) => {
+        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
             let events = response.data.data;
             events.sort(function(a, b) {
                 var dateA = a.date; 
