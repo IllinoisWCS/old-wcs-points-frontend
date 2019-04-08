@@ -78,7 +78,7 @@ class NewEvent extends Component {
             pw: this.state.pw
         };
 
-        axios.post('http://localhost:3000/api/events', newEvent).then( (response) => {
+        axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
             console.log(response);
             this.handleStatus(response);
         }).catch(e => {
