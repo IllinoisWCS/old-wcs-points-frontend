@@ -12,38 +12,55 @@ class NewEvent extends Component {
         super();
         this.state = {
             name: '',
-            points: 1,
             category: '',
+            points: 1,
             date: '',
+            startTime: 5,
+            endTime: 7,
             pw: ''
         }
 
         this.handleName = this.handleName.bind(this);
+        this.handleCategorySelect = this.handleCategorySelect.bind(this);
         this.handlePoints = this.handlePoints.bind(this);
         this.handleDate = this.handleDate.bind(this);
+        this.handleStart = this.handleStart.bind(this);
+        this.handleEnd = this.handleEnd.bind(this);
         this.handlePw = this.handlePw.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
-        this.handleCategorySelect = this.handleCategorySelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleName(event) {
         this.setState({name: event.target.value});
     }
+
+    handleCategorySelect(data) {
+        this.setState({
+            category: data.value
+        })
+    }
+
     handlePoints(event) {
         this.setState({points: event.target.value});
     }
+
     handleDate(event) {
         this.setState({date: event.target.value});
     }
+
+    handleStart(event) {
+        this.setState({startTime: event.target.value});
+    }
+
+    handleEnd(event) {
+        this.setState({endTime: event.target.value});
+    }
+    
     handlePw(event) {
         this.setState({pw: event.target.value});
     }
-    handleCategorySelect(e, data) {
-      this.setState({
-          category: data.value
-      })
-    }
+
     handleEnter(tgt) {
       if (tgt.charCode === 13) {
         this.handleSubmit();
@@ -53,13 +70,15 @@ class NewEvent extends Component {
     handleSubmit() {
         let newEvent = {
             name: this.state.name,
-            points: this.state.points,
             category: this.state.category,
+            points: this.state.points,
             date: this.state.date,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
             pw: this.state.pw
         };
 
-        axios.post('http://points-api.illinoiswcs.org/api/events', newEvent).then( (response) => {
+        axios.post('http://localhost:3000/api/events', newEvent).then( (response) => {
             console.log(response);
             this.handleStatus(response);
         }).catch(e => {
@@ -74,9 +93,6 @@ class NewEvent extends Component {
         notify.show("please try again", "error");
     }
 
-    componentWillMount() {
-
-    }
     render() {
       let categoryOptions = ['General Meeting', 'Tech Team', 'Mentoring', 'Social', 'Outreach', 'Corporate', 'Other']
       let categorySelectionOptions = []
@@ -92,7 +108,11 @@ class NewEvent extends Component {
               <Notifications />
                 <Card.Content>
                     <h4>Event Name</h4>
-                    <Input fluid placeholder='i.e. Google Tech Talk' value={this.state.name} onChange={this.handleName} onKeyPress={this.handleEnter}/>
+                    <Input 
+                        fluid placeholder='i.e. Google Tech Talk' 
+                        value={this.state.name} 
+                        onChange={this.handleName} 
+                        onKeyPress={this.handleEnter}/>
                     <br />
                     <h4>Category</h4>
                     <Dropdown
@@ -111,15 +131,43 @@ class NewEvent extends Component {
                     />
                     <br />
                     <h4>Points</h4>
-                    <Input fluid placeholder='i.e. 2' value={this.state.points} onChange={this.handlePoints} onKeyPress={this.handleEnter}/>
+                    <Input 
+                        fluid placeholder='i.e. 2' 
+                        value={this.state.points} 
+                        onChange={this.handlePoints} 
+                        onKeyPress={this.handleEnter}/>
                     <br />
 
                     <h4>Event Date</h4>
-                    <Input fluid placeholder='i.e. DD/MM/YY or DD-MM-YY or January 1, 2018' value={this.state.date} onChange={this.handleDate} onKeyPress={this.handleEnter}/>
+                    <Input 
+                        fluid placeholder='i.e. August 28, 1999' 
+                        value={this.state.date} 
+                        onChange={this.handleDate} 
+                        onKeyPress={this.handleEnter}/>
+                    <br />
+
+                    <h4>Start Time</h4>
+                    <Input 
+                        fluid placeholder='i.e. 5'
+                        value = {this.state.startTime}
+                        onChange = {this.handleStart}
+                        onKeyPress = {this.handleEnter}/>
+                    <br />
+
+                    <h4>End Time</h4>
+                    <Input 
+                        fluid placeholder='i.e. 7'
+                        value = {this.state.endTime}
+                        onChange = {this.handleEnd}
+                        onKeyPress = {this.handleEnter}/>
                     <br />
 
                     <h4>Password</h4>
-                    <Input fluid placeholder=';)' value={this.state.pw} onChange={this.handlePw} onKeyPress={this.handleEnter}/>
+                    <Input 
+                        fluid placeholder=';)' 
+                        value={this.state.pw} 
+                        onChange={this.handlePw} 
+                        onKeyPress={this.handleEnter}/>
                     <br />
 
                     <Button fluid onClick={this.handleSubmit}>Create Event</Button>

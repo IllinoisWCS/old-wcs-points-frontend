@@ -32,13 +32,15 @@ class SignIn extends Component {
         this.handlEnterGWC = this.handleEnterGWC.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeKey = this.handleChangeKey.bind(this);
+        this.handleStatus = this.handleStatus.bind(this);
     }
 
     handleSubmit(type) {
+        // local url: 'http://localhost:3000/api/'
         // production url: 'http://points-api.illinoiswcs.org/api/'
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
-          axios.put("http://points-api.illinoiswcs.org/api/events/" + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
+          axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response);
               this.handleStatus(response);
           }).catch(e => {
@@ -51,7 +53,7 @@ class SignIn extends Component {
                 date: this.state.date
             }
 
-            axios.put("http://points-api.illinoiswcs.org/api/users/" + this.state.value, update).then( (response) => {
+            axios.put('http://localhost:3000/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
                 this.handleStatus(response);
             }).catch(e => {
@@ -61,13 +63,15 @@ class SignIn extends Component {
     }
 
     handleStatus(response) {
-      console.log(response.data.message)
-      if (response.status === 200)
-        notify.show(`hello ${response.data.data.netid}!`, "success")
-      else if (response.status === 404)
+      console.log("response: " + response);
+      if (response.status === 200) {
+        notify.show(response.data.message, "warning");
+      } else if (response.status === 201) {
+        notify.show(response.data.message, "success");
+      } else if (response.status === 404) {
         notify.show(response.data.message, "error")
-      else if (response.status === 500)
-        notify.show("server error!", "error");
+      } else if (response.data.message === 500)
+        notify.show("Server error!", "error");
     }
 
     handleEnterEvent(tgt) {
@@ -120,7 +124,7 @@ class SignIn extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
+        axios.get('http://localhost:3000/api/events').then( (response) => {
             let events = response.data.data;
             events.sort(function(a, b) {
                 var dateA = a.date; 
