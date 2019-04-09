@@ -14,28 +14,28 @@ class Events extends Component {
         }
     }
 
-    componentWillMount() {
-        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
+    async componentWillMount() {
+        const response = await axios.get('http://localhost:3000/api/events');
 
-            let events = response.data.data;
-            events.sort(function(a, b) {
-                var dateA = new Date(a.date).getTime();
-                var dateB = new Date(b.date).getTime();
-                if (dateA > dateB) {
-                  return -1;
-                }
-                if (dateA < dateB) {
-                  return 1;
-                }
+        let events = response.data.data;
+        console.log(response);
+        events.sort(function(a, b) {
+            var dateA = new Date(a.date).getTime();
+            var dateB = new Date(b.date).getTime();
+            if (dateA > dateB) {
+                return -1;
+            }
+            if (dateA < dateB) {
+                return 1;
+            }
 
-                // names must be equal
-                return 0;
-              });
-
-            this.setState({
-                events: response.data.data
+            // names must be equal
+            return 0;
             });
-        })
+
+        this.setState({
+            events: response.data.data
+        });
     }
 
     render() {
