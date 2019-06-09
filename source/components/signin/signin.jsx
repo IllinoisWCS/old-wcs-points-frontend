@@ -123,27 +123,26 @@ class SignIn extends Component {
         })
     }
 
-    componentWillMount() {
-        axios.get('http://points-api.illinoiswcs.org/api/events').then( (response) => {
-            let events = response.data.data;
-            events.sort(function(a, b) {
-                var dateA = a.date; 
-                var dateB = b.date;
-                if (dateA < dateB) {
-                  return 1;
-                }
-                if (dateA > dateB) {
-                  return -1;
-                }
+    async componentWillMount() {
+      const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
+      let events = response.data.data;
+      events.sort(function(a, b) {
+          var dateA = a.date; 
+          var dateB = b.date;
+          if (dateA < dateB) {
+            return 1;
+          }
+          if (dateA > dateB) {
+            return -1;
+          }
 
-                // names must be equal
-                return 0;
-              });
+          // names must be equal
+          return 0;
+        });
 
-            this.setState({
-                events: response.data.data
-            });
-        })
+      this.setState({
+          events: response.data.data
+      });
     }
 
     render() {

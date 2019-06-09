@@ -15,7 +15,7 @@ class Events extends Component {
     }
 
     async componentWillMount() {
-        const response = await axios.get('http://localhost:3000/api/events');
+        const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
 
         let events = response.data.data;
         console.log(response);
@@ -38,8 +38,24 @@ class Events extends Component {
         });
     }
 
-    render() {
+    sortActiveTechTeam() {
+        let dict = {}
+        this.state.events.forEach(event => {
+            if (event.category === "Tech Team") {
+                event.attendees.forEach(attendee => {
+                    if (attendee in dict) {
+                        dict[attendee] += 1
+                    } else {
+                        dict[attendee] = 1
+                    }
+                });
+            }
+        });
+        console.log(dict);
+    }
 
+    render() {
+        this.sortActiveTechTeam();
         const events = this.state.events.map( (event) => {
 
             if (event.category === "Corporate") {
