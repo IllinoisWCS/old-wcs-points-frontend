@@ -15,8 +15,8 @@ class Events extends Component {
     }
 
     async componentWillMount() {
-        const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
-
+        //const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
+        const response = await axios.get('http://localhost:3000/api/events');
         let events = response.data.data;
         console.log(response);
         events.sort(function(a, b) {

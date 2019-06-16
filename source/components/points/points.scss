@@ -45,4 +45,12 @@
   .points-message {
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .points-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }

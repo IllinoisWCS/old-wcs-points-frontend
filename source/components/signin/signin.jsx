@@ -36,11 +36,10 @@ class SignIn extends Component {
     }
 
     handleSubmit(type) {
-        // local url: 'http://localhost:3000/api/'
-        // production url: 'http://points-api.illinoiswcs.org/api/'
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
           axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
+          //axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response);
               this.handleStatus(response);
           }).catch(e => {
@@ -52,8 +51,9 @@ class SignIn extends Component {
                 type: type,
                 date: this.state.date
             }
-
+            
             axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
+            //axios.put('http://localhost:3000/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
                 this.handleStatus(response);
             }).catch(e => {
@@ -125,6 +125,7 @@ class SignIn extends Component {
 
     async componentWillMount() {
       const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
+      //const response = await axios.get('http://localhost:3000/api/events');
       let events = response.data.data;
       events.sort(function(a, b) {
           var dateA = a.date; 
