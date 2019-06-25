@@ -3,7 +3,7 @@ import { Form, Input, Button, Segment, Statistic, Card, Grid} from 'semantic-ui-
 
 import axios from 'axios'
 
-import styles from './points.scss'
+import styles from '../styles/points.scss'
 
 class Points extends Component {
 
@@ -264,3 +264,20 @@ class Points extends Component {
 }
 
 export default Points
+// Update userstats w/ committee & oh pts
+// userStats.committees = targetUser.committees;
+// userStats.office_hours = targetUser.office_hours;
+// userStats.gwc = targetUser.gwc;
+
+// Totals up points for User
+// var query = Event.find({});
+// query.exec(function (err, events) {
+// if (err) return res.status(500);
+
+// events.forEach(function (event) {
+//   if(event.attendees.includes(req.params.id)) {
+//     userStats.attended_events.push(event);
+//   }
+// })
+// res.json({ message: 'OK', data: userStats });
+// })
