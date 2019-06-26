@@ -48,10 +48,6 @@ class Events extends Component {
         })
     }
 
-    refresh = () => {
-        Router.push('/events')
-    }
-
     render() {
         return (
             <div>

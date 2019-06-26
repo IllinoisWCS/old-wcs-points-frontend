@@ -30,20 +30,12 @@ class NewEvent extends Component {
         })
     }
 
-    // fixes off by one date error
-    formatDate = date => {
-        const newDate = new Date(date)
-        newDate.setDate(newDate.getDate() + 1)
-        return newDate
-    }
-
     createEvent = async () => {
-        const date = this.formatDate(this.state.date)
         const event = {
             name: this.state.name,
             category: this.state.category,
             points: this.state.points,
-            date,
+            date: this.state.date,
             startTime: this.state.startTime,
             endTime: this.state.endTime,
             password: this.state.password,
