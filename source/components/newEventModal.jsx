@@ -54,7 +54,7 @@ class NewEventModal extends Component {
             this.setState({
                 success: false,
             })
-        }
+        } 
         let valid = true
         for (let field in event) {
             if (!event[field]) {
@@ -117,6 +117,45 @@ class NewEventModal extends Component {
         }
     }
 
+    clearAndToggle = () => {
+        if (this.state.nameErr) {
+            this.setState({
+                nameErr: false
+            })
+        }
+        if (this.state.categoryErr) {
+            this.setState({
+                categoryErr: false
+            })
+        }
+        if (this.state.pointsErr) {
+            this.setState({
+                pointsErr: false
+            })
+        }
+        if (this.state.dateErr) {
+            this.setState({
+                dateErr: false
+            })
+        }
+        if (this.state.startTimeErr) {
+            this.setState({
+                startTimeErr: false
+            })
+        }
+        if (this.state.endTimeErr) {
+            this.setState({
+                endTimeErr: false
+            })
+        }
+        if (this.state.passwordErr) {
+            this.setState({
+                passwordErr: false
+            })
+        }
+        this.props.toggleModal()
+    }
+
     render() {
         const categories = [
             { key: 'c', text: 'Corporate', value: 'corporate' },
@@ -131,7 +170,7 @@ class NewEventModal extends Component {
         return (
             <Modal 
                 open={this.props.open} 
-                onClose={this.props.toggleModal} 
+                onClose={this.clearAndToggle} 
                 closeIcon
             >
                 <Modal.Content>
