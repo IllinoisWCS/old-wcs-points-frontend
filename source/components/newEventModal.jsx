@@ -1,36 +1,74 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal, Form, Select, Message, Alert } from 'semantic-ui-react'
 import Notifications, {notify} from 'react-notify-toast';
-
-// import styles from './newevent.scss'
-
 import axios from 'axios'
+import styles from '../styles/newEventModal.scss'
+const moment = require('moment')
 
-class NewEvent extends Component {
+class NewEventModal extends Component {
 
     constructor() {
         super();
         this.state = {
+            // form input
             name: '',
             category: '',
-            points: 0,
+            points: 1,
             date: '',
             startTime: '',
             endTime: '',
             password: '',
-            showMsg: false,
-            message: '',
+
+            // form validation
+            nameErr: false,
+            categoryErr: false,
+            pointsErr: false,
+            dateErr: false,
+            startTimeErr: false,
+            endTimeErr: false,
+            passwordErr: false,
+
+            // form message
+            success: false,
+            error: false,
+            msg: '',        
         }
     }
 
     handleChange = (event, data) => {
-        console.log(`${event.target.id}: ${data.value}`)
+        const fieldErr = `${event.target.id}Err`
         this.setState({
             [event.target.id]: data.value
         })
+        if (this.state[fieldErr]) {
+            this.setState({
+                [fieldErr]: false,
+            })
+        }
+        
     }
 
-    createEvent = async () => {
+    validateFields = (event) => {
+        // if user tries to create multiple events w/o closing
+        if (this.state.success) {
+            this.setState({
+                success: false,
+            })
+        }
+        let valid = true
+        for (let field in event) {
+            if (!event[field]) {
+                const fieldErr = `${field}Err`
+                this.setState({
+                    [fieldErr]: true,
+                })
+                valid = false
+            }
+        }
+        return valid
+    }
+
+    validateEvent = async () => {
         const event = {
             name: this.state.name,
             category: this.state.category,
@@ -40,21 +78,42 @@ class NewEvent extends Component {
             endTime: this.state.endTime,
             password: this.state.password,
         }
+        if (this.validateFields(event)) {
+            await this.createEvent(event)
+        }
+    }
+
+    createEvent = async (event) => {
         const res = await axios.post('http://localhost:3000/api/events', event)
-        console.log(res)
-        if (res.data.code === 500) {
+        if (res.data.code === 200) {
             this.setState({
-                message: 'All fields are required.',
-                showMsg: true,
+                success: true,
+                error: false,
+                msg: `Success! Event key is ${res.data.result}.`,
             })
+            this.clearFieldsOnSuccess(event)
+            this.props.reloadOnClose()    
         } else if (res.data.code === 404) {
             this.setState({
-                message: 'Invalid password.',
-                showMsg: true,
+                success: false,
+                error: true,
+                msg: 'Incorrect Password. Please try again.'
             })
-        } else {
-            this.props.toggleModal()
-            window.location.reload()
+        } 
+    }
+
+    // if user tries to create multiple events w/o closing
+    clearFieldsOnSuccess = (event) => {
+        for (let field in event) {
+            if (field === 'points') {
+                this.setState({
+                    points: 1,
+                })
+            } else {
+                this.setState({
+                    [field]: '',
+                })
+            }
         }
     }
 
@@ -66,18 +125,30 @@ class NewEvent extends Component {
             { key: 'm', text: 'Mentoring', value: 'mentoring' },
             { key: 't', text: 'Tech Team', value: 'techTeam' },
             { key: 'g', text: 'General Meeting', value: 'generalMeeting' },
-            { key: 'ot', text: 'Other', value: 'other' }
+            { key: 'x', text: 'Other', value: 'other' }
         ]
+
         return (
-            <Modal open={this.props.open} onClose={this.props.toggleModal} closeIcon>
+            <Modal 
+                open={this.props.open} 
+                onClose={this.props.toggleModal} 
+                closeIcon
+            >
                 <Modal.Content>
-                    <Form onSubmit={this.createEvent} error={this.state.showMsg}>
+                    <h4 className='modal-heading'>All fields are required.</h4>
+                    <Form 
+                        onSubmit={this.validateEvent} 
+                        success={this.state.success}
+                        error={this.state.error}
+                    >
                         <Form.Field
                             id='name'
                             control={Input}
                             label='Name'
                             placeholder='i.e. October General Meeting'
                             onChange={this.handleChange}
+                            error={this.state.nameErr}
+                            value={this.state.name}
                         />
                         <Form.Field
                             id='category'
@@ -88,15 +159,17 @@ class NewEvent extends Component {
                             search
                             searchInput={{id: 'category'}}
                             onChange={this.handleChange}
-
+                            error={this.state.categoryErr}
+                            value={this.state.category}
                         />
                         <Form.Field
                             id='points'
                             control={Input}
                             label='Points'
-                            placeholder='i.e. 1'
+                            value={1}
                             onChange={this.handleChange}
-
+                            error={this.state.pointsErr}
+                            value={this.state.points}
                         />
                         <Form.Field
                             id='date'
@@ -104,7 +177,8 @@ class NewEvent extends Component {
                             label='Date'
                             type='date'
                             onChange={this.handleChange}
-
+                            error={this.state.dateErr}
+                            value={this.state.date}
                         />
                         <Form.Field
                             id='startTime'
@@ -112,7 +186,8 @@ class NewEvent extends Component {
                             label='Start Time'
                             type='time'
                             onChange={this.handleChange}
-
+                            error={this.state.startTimeErr}
+                            value={this.state.startTime}
                         />
                         <Form.Field
                             id='endTime'
@@ -120,7 +195,8 @@ class NewEvent extends Component {
                             label='End Time'
                             type='time'
                             onChange={this.handleChange}
-
+                            error={this.state.endTimeErr}
+                            value={this.state.endTime}
                         />
                         <Form.Field
                             id='password'
@@ -128,9 +204,11 @@ class NewEvent extends Component {
                             label='Password'
                             placeholder=':)'
                             onChange={this.handleChange}
-
+                            error={this.state.passwordErr}
+                            value={this.state.password}
                         />
-                        <Message error content={this.state.message}/>
+                        <Message success content={this.state.msg}/>
+                        <Message error content={this.state.msg}/>
                         <Button type='submit'>Submit</Button>
                     </Form>
                 </Modal.Content>
@@ -140,4 +218,4 @@ class NewEvent extends Component {
 
 }
 
-export default NewEvent
+export default NewEventModal

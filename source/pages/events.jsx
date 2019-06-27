@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Segment, Accordion, Icon, Label, Statistic, Card, Button } from 'semantic-ui-react'
-
 import '../styles/events.scss'
-import NewEvent from '../components/newevent.jsx'
-
+import NewEventModal from '../components/newEventModal.jsx'
 import axios from 'axios'
+import Notifications, {notify} from 'react-notify-toast';
 const moment = require('moment')
+const utils = require('../utils')
 
 class Events extends Component {
 
@@ -14,6 +14,7 @@ class Events extends Component {
         this.state = {
             events: [],
             modal: false,
+            reloadOnClose: false, 
         }
     }
 
@@ -22,23 +23,10 @@ class Events extends Component {
         const response = await axios.get('http://localhost:3000/api/events');
         let events = response.data.result;
         if (events) {
-            events.sort(function(a, b) {
-                var dateA = new Date(a.date).getTime();
-                var dateB = new Date(b.date).getTime();
-                if (dateA > dateB) {
-                    return -1;
-                }
-                if (dateA < dateB) {
-                    return 1;
-                }
-    
-                // names must be equal
-                return 0;
-            });
-    
+            utils.sortEventsByNewest(events)
             this.setState({
-                events
-            });
+                events,
+            })
         }
     }
 
@@ -46,14 +34,25 @@ class Events extends Component {
         this.setState({
             modal: !this.state.modal
         })
+        if (this.state.reloadOnClose) {
+            window.location.reload()
+        }
+    }
+
+    reloadOnClose = () => {
+        this.setState({
+            reloadOnClose: true,
+        })
     }
 
     render() {
         return (
             <div>
-                <NewEvent 
+                <Notifications/>
+                <NewEventModal 
                     open={this.state.modal} 
                     toggleModal={this.toggleModal} 
+                    reloadOnClose={this.reloadOnClose}
                 />
                 <Button onClick={this.toggleModal}>Create New Event</Button>
                 <Segment.Group>
