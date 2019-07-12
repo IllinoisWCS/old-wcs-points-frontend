@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal, Form, Select, Message, Alert } from 'semantic-ui-react'
-import Notifications, {notify} from 'react-notify-toast';
 import axios from 'axios'
 import styles from '../styles/newEventModal.scss'
-const moment = require('moment')
 
 class NewEventModal extends Component {
 
@@ -84,7 +82,7 @@ class NewEventModal extends Component {
     }
 
     createEvent = async (event) => {
-        const res = await axios.post('http://localhost:3000/api/events', event)
+        const res = await axios.post('http://points-api.illinoiswcs.org/api/events', event)
         if (res.data.code === 200) {
             this.setState({
                 success: true,
