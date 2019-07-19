@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
-import styles from './home.scss'
-import Events from '../events/events.jsx'
-import Points from '../points/points.jsx'
-import SignIn from '../signin/signin.jsx'
-import NewEvent from '../newevent/newevent.jsx'
+import styles from '../styles/home.scss'
+import Events from '../pages/events.jsx'
+import Points from '../pages/points.jsx'
+import SignIn from '../pages/signin.jsx'
+//import NewEvent from '../pages/newevent.jsx'
 
 class Home extends Component {
     render() {

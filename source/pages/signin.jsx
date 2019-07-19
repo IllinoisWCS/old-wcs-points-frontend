@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Tab, Dropdown, Input, Button, Icon, Link } from 'semantic-ui-react'
 import Notifications, {notify} from 'react-notify-toast';
 
-import NewEvent from '../newevent/newevent.jsx'
+//import NewEvent from '../components/newevent.jsx'
 
-import styles from './signin.scss'
+import styles from '../styles/signin.scss'
 
 import axios from 'axios'
 
