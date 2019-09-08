@@ -3,7 +3,7 @@ import { Segment, Accordion, Icon, Label, Statistic, Card, Button } from 'semant
 import '../styles/events.scss'
 import NewEventModal from '../components/newEventModal.jsx'
 import axios from 'axios'
-import Notifications, {notify} from 'react-notify-toast';
+import Notifications, { notify } from 'react-notify-toast';
 const moment = require('moment')
 const utils = require('../utils')
 
@@ -14,14 +14,16 @@ class Events extends Component {
         this.state = {
             events: [],
             modal: false,
-            reloadOnClose: false, 
+            reloadOnClose: false,
         }
     }
 
     async componentWillMount() {
-        const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
-        //const response = await axios.get('http://localhost:3000/api/events');
+        const response = await axios.get('http://points-api.illinoiswcs.org/api/events',{withCredentials: true});
+        // const response = await axios.get('http://localhost:3000/api/events',{withCredentials: true});
+ 
         let events = response.data.result;
+        console.log(events);
         if (events) {
             utils.sortEventsByNewest(events)
             this.setState({
@@ -48,10 +50,10 @@ class Events extends Component {
     render() {
         return (
             <div>
-                <Notifications/>
-                <NewEventModal 
-                    open={this.state.modal} 
-                    toggleModal={this.toggleModal} 
+                <Notifications />
+                <NewEventModal
+                    open={this.state.modal}
+                    toggleModal={this.toggleModal}
                     reloadOnClose={this.reloadOnClose}
                 />
                 <Button onClick={this.toggleModal}>Create New Event</Button>
@@ -61,13 +63,13 @@ class Events extends Component {
                             <div className="flex">
                                 <div>
                                     <h3>{event.name}</h3>
-                                    <h5 className="muted">{ moment(event.date).format('MMM D YYYY') }
+                                    <h5 className="muted">{moment(event.date).format('MMM D YYYY')}
                                     </h5>
                                 </div>
                                 <div>
                                     <Statistic className="statistic" size='tiny'>
-                                    <Statistic.Value>{event.attendees.length}</Statistic.Value>
-                                    <Statistic.Label>Attended</Statistic.Label>
+                                        <Statistic.Value>{event.attendees.length}</Statistic.Value>
+                                        <Statistic.Label>Attended</Statistic.Label>
                                     </Statistic>
                                 </div>
                             </div>
