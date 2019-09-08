@@ -25,12 +25,12 @@ class Points extends Component {
     }
 
     handleSubmit() {
-        axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value,{withCredentials: true}).then( (response) => {
-        //axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
-            const events = response.data.data.attended_events;
-            const committees = response.data.data.committees;
-            const office_hours = response.data.data.office_hours;
-            const gwc = response.data.data.gwc;
+        axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value).then( (response) => {
+        // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
+            const events = response.data.result.attendedEvents;
+            const committees = response.data.result.committees;
+            const office_hours = response.data.result.officeHours;
+            const gwc = response.data.result.girlsWhoCode;
 
             let event_points = 0;
             let committee_points = committees.length * 0.5;

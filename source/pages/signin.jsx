@@ -38,22 +38,22 @@ class SignIn extends Component {
     handleSubmit(type) {
         // Validate netid here and set error state if there's problems
         if (type === 'event') {
-          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key },{withCredentials: true}).then( (response) => {
-          // axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }, {withCredentials: true}).then( (response) => {
+          axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
+          // axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key }).then( (response) => {
               console.log(response);
               this.handleStatus(response);
           }).catch(e => {
               this.handleStatus(e.response);
           });
-        } else if (type === 'committee' || type === 'office_hours' || type === 'gwc'){
+        } else if (type === 'committees' || type === 'officeHours' || type === 'girlsWhoCode' || type === 'attendedEvents'){ // TODO: updated check
             const update = {
                 netid: this.state.value,
                 type: type,
                 date: this.state.date
             }
             
-            axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update,{withCredentials: true}).then( (response) => {
-            // axios.put('http://localhost:3000/api/users/' + this.state.value, update,{withCredentials: true}).then( (response) => {
+            axios.put('http://points-api.illinoiswcs.org/api/users/' + this.state.value, update).then( (response) => {
+            // axios.put('http://localhost:3000/api/users/' + this.state.value, update).then( (response) => {
                 console.log(response);
                 this.handleStatus(response);
             }).catch(e => {
@@ -124,9 +124,12 @@ class SignIn extends Component {
     }
 
     async componentWillMount() {
-      const response = await axios.get('http://points-api.illinoiswcs.org/api/events',{withCredentials: true});
-      // const response = await axios.get('http://localhost:3000/api/events',{withCredentials: true});
-      let events = response.data.data;
+      // console.log("inside componentwill  mount");
+      const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
+      // const response = await axios.get('http://localhost:3000/api/events');
+   
+      let events = response.data.result;
+      // console.log(events);
       events.sort(function(a, b) {
           var dateA = a.date; 
           var dateB = b.date;
@@ -142,7 +145,7 @@ class SignIn extends Component {
         });
 
       this.setState({
-          events: response.data.data
+          events: response.data.result
       });
     }
 
