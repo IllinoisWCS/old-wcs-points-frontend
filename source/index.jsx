@@ -12,3 +12,4 @@ render(
     <Home />,
     document.getElementById('app')
 );
+

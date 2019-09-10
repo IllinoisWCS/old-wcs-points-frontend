@@ -15,7 +15,7 @@ class Home extends Component {
                     <div className="Home__leftNav">
                         <img src="./assets/logo.png" />
                         <div className="Home__flex">
-                            <Link className="Home__flexItem" to="/">Sign-in</Link>
+                            <Link className="Home__flexItem" to="/">Check-in</Link>
                             <Link className="Home__flexItem" to="/points">Points</Link>
                             <Link className="Home__flexItem" to="/events">Events</Link>
                             

@@ -26,50 +26,57 @@ class Points extends Component {
 
     handleSubmit() {
         axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value).then( (response) => {
+        // console.log("inside handle submit of points: " + this.state.value+ " | " + this.state.totalPoints)
         // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
-            const events = response.data.result.attendedEvents;
-            const committees = response.data.result.committees;
-            const office_hours = response.data.result.officeHours;
-            const gwc = response.data.result.girlsWhoCode;
-
-            let event_points = 0;
-            let committee_points = committees.length * 0.5;
-            let office_hour_points = office_hours.length * 0.5;
-            let gwc_points = gwc.length * 0.5;
+            // // const events = response.data.result.attendedEvents;
+            // const committees = response.data.result.committees;
+            // const office_hours = response.data.result.officeHours;
+            // const gwc = response.data.result.girlsWhoCode;
+            // console.log(response.data.result)
+            const total_points = response.data.result.points;
+            // console.log(response.data.result);
+            // let event_points = 0;
+            // let committee_points = committees.length * 0.5;
+            // let office_hour_points = office_hours.length * 0.5;
+            // let gwc_points = gwc.length * 0.5;
 
             // sort events from most to least recent
-            events.sort(function(a, b) {
-                var dateA = new Date(a.date).getTime();
-                var dateB = new Date(b.date).getTime();
-                if (dateA > dateB) {
-                  return -1;
-                }
-                if (dateA < dateB) {
-                  return 1;
-                }
+            // events.sort(function(a, b) {
+            //     var dateA = new Date(a.date).getTime();
+            //     var dateB = new Date(b.date).getTime();
+            //     if (dateA > dateB) {
+            //       return -1;
+            //     }
+            //     if (dateA < dateB) {
+            //       return 1;
+            //     }
 
-                // names must be equal
-                return 0;
-            });
+            //     // names must be equal
+            //     return 0;
+            // });
 
-            events.forEach( (event) => {
-                event_points += event.points
-            });
+            // events.forEach( (event) => {
+            //     event_points += event.points
+            // });
 
-            const total_points = event_points + committee_points + office_hour_points + gwc_points;
+
+            // const total_points = event_points + committee_points + office_hour_points + gwc_points;
             const totalPoints = `You have ${total_points} total points.`
-            const eventPoints = `Events: ${event_points}`
-            const committeePoints = `Committees: ${committee_points}`
-            const ohPoints = `Office Hours: ${office_hour_points}`
-            const gwcPoints =  `Girls Who Code: ${gwc_points}`
+            // const eventPoints = `Events: ${event_points}
+            
+            // const eventPoints = `Events: ${current_points}`
+            // const committeePoints = `Committees: ${committee_points}`
+            // const ohPoints = `Office Hours: ${office_hour_points}`
+            // const gwcPoints =  `Girls Who Code: ${gwc_points}`
 
             this.setState({
-                totalPoints,
-                eventPoints,
-                committeePoints,
-                ohPoints,
-                gwcPoints,
-                events
+                // eventPoints
+                totalPoints
+                // eventPoints,
+                // committeePoints,
+                // ohPoints,
+                // gwcPoints,
+                // events
             });
         });
     }

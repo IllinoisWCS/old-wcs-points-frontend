@@ -20,11 +20,9 @@ class Events extends Component {
 
     async componentWillMount() {
         const response = await axios.get('http://points-api.illinoiswcs.org/api/events');
-        // console.log("inside componentwill  mount --event");
+    
         // const response = await axios.get('http://localhost:3000/api/events');
-        // console.log("inside event jsx");
         let events = response.data.result;
-        // console.log(events);
         if (events) {
             utils.sortEventsByNewest(events)
             this.setState({
@@ -68,10 +66,10 @@ class Events extends Component {
                                     </h5>
                                 </div>
                                 <div>
-                                    <Statistic className="statistic" size='tiny'>
+                                    {/* <Statistic className="statistic" size='tiny'>
                                         <Statistic.Value>{event.attendees.length}</Statistic.Value>
                                         <Statistic.Label>Attended</Statistic.Label>
-                                    </Statistic>
+                                    </Statistic> */}
                                 </div>
                             </div>
                         </Segment>

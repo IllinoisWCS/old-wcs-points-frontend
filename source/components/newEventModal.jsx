@@ -98,7 +98,7 @@ class NewEventModal extends Component {
             this.setState({
                 success: false,
                 error: true,
-                msg: 'Incorrect Password. Please try again.'
+                msg: 'You are not authorized to create events.'
             })
         } 
     }
@@ -241,8 +241,8 @@ class NewEventModal extends Component {
                         <Form.Field
                             id='password'
                             control={Input}
-                            label='Password'
-                            placeholder=':)'
+                            label='NetId'
+                            placeholder=''
                             onChange={this.handleChange}
                             error={this.state.passwordErr}
                             value={this.state.password}
