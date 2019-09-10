@@ -46,29 +46,32 @@ class SignIn extends Component {
     async handleSubmit(type) {
         // Validate netid here and set error state if there's problems
 
-        if (this.state.attendedEvents.indexOf(this.state.event_key) <= -1) {
+        if (type === 'event') {
+          
+          // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
+          const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
 
-          if (type === 'event') {
+          if (res.data.code == 200) {
+            // console.log("UPDATED EVENT WITH USER");
             this.registerUser(this.state.value, this.state.event_key)
-            // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
-            const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
-
-            if (res.data.code == 200) {
-                this.setState({
-                  success: true,
-                  error: false,
-                  msg: `Success! Updated event with user ${this.state.value}`,
-              })
-            } else if (res.data.code === 404) {
+            notify.show("Successfully checked in!", "success");
               this.setState({
-                  success: false,
-                  error: true,
-                  msg: 'Failed to update event.'
-              })
-          } 
-        }
-
+                success: true,
+                error: false,
+                msg: `Success! Updated event with user ${this.state.value}`,
+            })
+          } else if (res.data.code === 404) {
+            // console.log("failed to insert user to event");
+            notify.show("Check in is unsuccessful", "error");
+            this.setState({
+                success: false,
+                error: true,
+                msg: 'Failed to update event.'
+            })
         } 
+      }
+
+      
 
       
   
@@ -159,11 +162,11 @@ class SignIn extends Component {
 
     registerUser = async (netid, eventkey) => {
 
-      // const putResponse = await axios.put("http://localhost:3000/api/users/" + netid, {key:eventkey})
+      // const response = await axios.put("http://localhost:3000/api/users/" + netid, {key:eventkey})
       const response = await axios.put("http://points-api.illinoiswcs.org/api/users/" + netid, {key:eventkey})
       if (response.data.code == 200) {
 
-        notify.show("Successfully signed in!", "success");
+       
         this.state.attendedEvents = response.data.result;
         this.setState({
           success: true,
@@ -248,7 +251,7 @@ class SignIn extends Component {
               
     
                 
-          </Tab.Pane> },
+          </Tab.Pane> }
          /*TODO: add in future
           { menuItem: 'Committee', render: () =>
             <Tab.Pane attached={false}>
