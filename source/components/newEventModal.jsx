@@ -83,8 +83,8 @@ class NewEventModal extends Component {
 
     createEvent = async (event) => {
 
-        // const res = await axios.post('http://points-api.illinoiswcs.org/api/events', event)
-        const res = await axios.post('http://localhost:3000/api/events', event)
+        const res = await axios.post('http://points-api.illinoiswcs.org/api/events', event)
+        // const res = await axios.post('http://localhost:3000/api/events', event)
         console.log(res.data);
         if (res.data.code === 200) {
             this.setState({
@@ -93,8 +93,8 @@ class NewEventModal extends Component {
                 msg: `Success! Event key is ${res.data.result}.`,
             })
             this.clearFieldsOnSuccess(event)
-            this.props.reloadOnClose()
-            this.props.toggleModal()    
+            // this.props.reloadOnClose()
+            // this.props.toggleModal()    
         } else if (res.data.code === 404) {
             this.setState({
                 success: false,

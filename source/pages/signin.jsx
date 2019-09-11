@@ -50,7 +50,7 @@ class SignIn extends Component {
           
           // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
           const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
-
+          console.log("updating the event")
           if (res.data.code == 200) {
             // console.log("UPDATED EVENT WITH USER");
             this.registerUser(this.state.value, this.state.event_key)
