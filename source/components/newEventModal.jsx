@@ -92,7 +92,7 @@ class NewEventModal extends Component {
                 error: false,
                 msg: `Success! Event key is ${res.data.result}.`,
             })
-            this.clearFieldsOnSuccess(event)
+            window.location.reload()
             // this.props.reloadOnClose()
             // this.props.toggleModal()    
         } else if (res.data.code === 404) {

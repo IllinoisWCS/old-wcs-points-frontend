@@ -34,7 +34,7 @@ class Points extends Component {
             // const gwc = response.data.result.girlsWhoCode;
             // console.log(response.data.result)
             const total_points = response.data.result.points;
-            // console.log(response.data.result);
+            console.log(response.data.result);
             // let event_points = 0;
             // let committee_points = committees.length * 0.5;
             // let office_hour_points = office_hours.length * 0.5;
