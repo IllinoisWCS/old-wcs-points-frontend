@@ -23,7 +23,13 @@ class Events extends Component {
     
         // const response = await axios.get('http://localhost:3000/api/events');
         let events = response.data.result;
+        
         if (events) {
+
+       
+            events = events.filter(function(e) { return !e.name.toLowerCase().includes('office hours') })
+            // if (!event.name.toLowerCase().includes('office hours') && !event.name.toLowerCase().includes('girls who code') && !event.name.toLowerCase().includes('committee') ) {
+                console.log(events);
             utils.sortEventsByNewest(events)
             this.setState({
                 events,
@@ -58,22 +64,24 @@ class Events extends Component {
                 <Button onClick={this.toggleModal}>Create New Event</Button>
                 <Segment.Group>
                     {this.state.events.map(event => (
-                        <Segment key={event._id} padded>
+                   
+            
+                           <Segment key={event._id} padded>
                             <div className="flex">
                                 <div>
+     
                                     <h3>{event.name}</h3>
                                     <h5 className="muted">{moment(event.date).format('MMM D YYYY')}
                                     </h5>
                                 </div>
                                 <div>
-                                    {/* <Statistic className="statistic" size='tiny'>
-                                        <Statistic.Value>{event.attendees.length}</Statistic.Value>
-                                        <Statistic.Label>Attended</Statistic.Label>
-                                    </Statistic> */}
+                          
                                 </div>
                             </div>
                         </Segment>
-                    ))}
+                        
+                        
+        ))}
                 </Segment.Group>
             </div>
         )
