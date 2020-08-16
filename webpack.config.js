@@ -10,7 +10,6 @@ const BUILD_DIR = path.resolve(__dirname, 'public');
 const APP_DIR = path.resolve(__dirname, 'source');
 
 const config = {
-	
     entry: {
         app: [APP_DIR + '/index.jsx'],
         vendor: ['react', 'react-dom', 'react-router']
@@ -18,7 +17,8 @@ const config = {
 	
     output: {
         path: BUILD_DIR,
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
 	
     context: path.join(__dirname, 'source'),
@@ -48,6 +48,10 @@ const config = {
             }
 			
         ]
+    },
+
+    devServer: {
+        historyApiFallback: true,
     },
 	
     plugins: [
