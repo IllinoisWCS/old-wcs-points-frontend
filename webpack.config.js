@@ -51,7 +51,9 @@ const config = {
     },
 
     devServer: {
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: '/'
+        },
     },
 	
     plugins: [

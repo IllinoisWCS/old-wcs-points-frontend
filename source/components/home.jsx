@@ -9,7 +9,6 @@ import SignIn from '../pages/signin.jsx'
 
 class Home extends Component {
     render() {
-        console.log('test');
         return(
             <Router>
                 <div className="Home">
