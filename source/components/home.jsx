@@ -17,9 +17,7 @@ class Home extends Component {
                         <div className="Home__flex">
                             <Link className="Home__flexItem" to="/">Check-in</Link>
                             <Link className="Home__flexItem" to="/points">Points</Link>
-                            <Link className="Home__flexItem" to="/events">Events</Link>
-                            
-                            
+                            <Link className="Home__flexItem" to="/events">Events</Link>                    
                         </div>
                     </div>
                     <div className="Home__content">
@@ -27,7 +25,6 @@ class Home extends Component {
                             <Route exact path="/" component={SignIn}/>
                             <Route exact path="/points" component={Points}/>
                             <Route exact path="/events" component={Events}/>
-                            
                         </div>
                     </div>
                 </div>
