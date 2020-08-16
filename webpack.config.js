@@ -18,7 +18,7 @@ const config = {
     output: {
         path: BUILD_DIR,
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: 'build'
     },
 	
     context: path.join(__dirname, 'source'),
@@ -52,7 +52,7 @@ const config = {
 
     devServer: {
         historyApiFallback: {
-            index: '/'
+            index: 'build/index.html'
         },
     },
 	
