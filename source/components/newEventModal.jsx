@@ -33,17 +33,16 @@ class NewEventModal extends Component {
         }
     }
 
-    handleChange = (event, data) => {
-        const fieldErr = `${event.target.id}Err`
+    handleChange = (_, data) => {
+        const fieldErr = `${data.id}Err`;
         this.setState({
-            [event.target.id]: data.value
-        })
+            [data.id]: data.value
+        });
         if (this.state[fieldErr]) {
             this.setState({
                 [fieldErr]: false,
             })
-        }
-        
+        };
     }
 
     validateFields = (event) => {
