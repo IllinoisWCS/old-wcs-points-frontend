@@ -16,6 +16,7 @@ class NewEventModal extends Component {
             startTime: '',
             endTime: '',
             password: '',
+            visibility: 'public',
 
             // form validation
             nameErr: false,
@@ -54,7 +55,7 @@ class NewEventModal extends Component {
         } 
         let valid = true
         for (let field in event) {
-            if (!event[field]) {
+            if (field !== "private" && !event[field]) {
                 const fieldErr = `${field}Err`
                 this.setState({
                     [fieldErr]: true,
@@ -74,6 +75,7 @@ class NewEventModal extends Component {
             startTime: this.state.startTime,
             endTime: this.state.endTime,
             password: this.state.password,
+            private: this.state.visibility === "private",
         }
         if (this.validateFields(event)) {
             await this.createEvent(event)
@@ -83,7 +85,8 @@ class NewEventModal extends Component {
     createEvent = async (event) => {
 
         const res = await axios.post('http://points-api.illinoiswcs.org/api/events', event)
-        // const res = await axios.post('http://localhost:3000/api/events', event)
+        // const res = await axios.post('http://localhost:3000/api/events', event);
+        
         if (res.data.code === 200) {
             this.setState({
                 success: true,
@@ -186,18 +189,34 @@ class NewEventModal extends Component {
                             error={this.state.nameErr}
                             value={this.state.name}
                         />
-                        <Form.Field
-                            id='category'
-                            control={Select}
-                            label={{ children: 'Category', htmlFor: 'category' }}
-                            placeholder='Category'
-                            options={categories}
-                            search
-                            searchInput={{id: 'category'}}
-                            onChange={this.handleChange}
-                            error={this.state.categoryErr}
-                            value={this.state.category}
-                        />
+                        <Form.Group widths='equal'>
+                            <Form.Field
+                                id='category'
+                                control={Select}
+                                label={{ children: 'Category', htmlFor: 'category' }}
+                                placeholder='Category'
+                                options={categories}
+                                search
+                                searchInput={{id: 'category'}}
+                                onChange={this.handleChange}
+                                error={this.state.categoryErr}
+                                value={this.state.category}
+                            />
+                            <Form.Select
+                                fluid
+                                id='visibility'
+                                label='Visibility'
+                                options={
+                                    [
+                                        { key: 'public', text: 'Public', value: 'public' },
+                                        { key: 'private', text: 'Private', value: 'private' },
+                                    ]
+                                }
+                                defaultValue="public"
+                                onChange={this.handleChange}
+                                error={this.state.visibilityErr}
+                            />
+                        </Form.Group>
                         <Form.Field
                             id='points'
                             control={Input}
