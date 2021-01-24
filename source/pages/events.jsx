@@ -25,9 +25,11 @@ class Events extends Component {
             let events = response.data.result;
         
             if (events) {
-                events = events.filter(function(e) { return !e.name.toLowerCase().includes('office hour') })
+                events = events.filter(function(e) { 
+                    return !e.name.toLowerCase().includes('office hour') && (!e.private)
+                })
                 // if (!event.name.toLowerCase().includes('office hours') && !event.name.toLowerCase().includes('girls who code') && !event.name.toLowerCase().includes('committee') ) {
-                    console.log(events);
+                console.log(events);
                 utils.sortEventsByNewest(events)
                 self.setState({
                     events,
