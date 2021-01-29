@@ -58,6 +58,7 @@ class NewEventModal extends Component {
     handleCheck = (_, data) => {
         this.setState({
             sameDay: data.checked,
+            endDateErr: false,
         })
     }
 
@@ -69,7 +70,6 @@ class NewEventModal extends Component {
             })
         } 
         let valid = true
-        console.log(event);
         for (let field in event) {
             /*
                 Note: the first condition is REQUIRED because field private is a boolean
@@ -107,7 +107,6 @@ class NewEventModal extends Component {
 
         const res = await axios.post('http://points-api.illinoiswcs.org/api/events', event)
         // const res = await axios.post('http://localhost:3000/api/events', event);
-        
         if (res.data.code === 200) {
             this.setState({
                 success: true,
@@ -121,7 +120,13 @@ class NewEventModal extends Component {
                 error: true,
                 msg: 'You are not authorized to create events.'
             })
-        } 
+        } else if (res.data.code === 500) {
+            this.setState({
+                success: false,
+                error: true,
+                msg: 'Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help.'
+            })
+        }
     }
 
     clearFieldsOnSuccess = (event) => {
