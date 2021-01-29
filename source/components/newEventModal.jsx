@@ -12,7 +12,8 @@ class NewEventModal extends Component {
             name: '',
             category: '',
             points: 1,
-            date: '',
+            startDate: '',
+            endDate: '',
             startTime: '',
             endTime: '',
             password: '',
@@ -22,7 +23,8 @@ class NewEventModal extends Component {
             nameErr: false,
             categoryErr: false,
             pointsErr: false,
-            dateErr: false,
+            startDateErr: false,
+            endDateErr: false,
             startTimeErr: false,
             endTimeErr: false,
             passwordErr: false,
@@ -44,8 +46,13 @@ class NewEventModal extends Component {
         if (this.state[fieldErr]) {
             this.setState({
                 [fieldErr]: false,
-            })
+            });
         };
+        if (data.id === "startDate" && this.state.sameDay && this.state.endDateErr) {
+            this.setState({
+                endDateErr: false,
+            })
+        }
     }
 
     handleCheck = (_, data) => {
@@ -62,7 +69,12 @@ class NewEventModal extends Component {
             })
         } 
         let valid = true
+        console.log(event);
         for (let field in event) {
+            /*
+                Note: the first condition is REQUIRED because field private is a boolean
+                and if set to false will prevent event from getting created
+            */
             if (field !== "private" && !event[field]) {
                 const fieldErr = `${field}Err`
                 this.setState({
@@ -79,7 +91,8 @@ class NewEventModal extends Component {
             name: this.state.name,
             category: this.state.category,
             points: this.state.points,
-            date: this.state.date,
+            startDate: this.state.startDate,
+            endDate: this.state.sameDay ? this.state.startDate : this.state.endDate,
             startTime: this.state.startTime,
             endTime: this.state.endTime,
             password: this.state.password,
@@ -141,9 +154,14 @@ class NewEventModal extends Component {
                 pointsErr: false
             })
         }
-        if (this.state.dateErr) {
+        if (this.state.startDateErr) {
             this.setState({
-                dateErr: false
+                startDateErr: false
+            })
+        }
+        if (this.state.endDateErr) {
+            this.setState({
+                endDateErr: false
             })
         }
         if (this.state.startTimeErr) {
@@ -237,13 +255,13 @@ class NewEventModal extends Component {
                         
                         <Form.Group widths='equal'>
                             <Form.Field
-                                id='date'
+                                id='startDate'
                                 control={Input}
                                 label='Start Date'
                                 type='date'
                                 onChange={this.handleChange}
-                                error={this.state.dateErr}
-                                value={this.state.date}
+                                error={this.state.startDateErr}
+                                value={this.state.startDate}
                             />
                             <Form.Field
                                 id='startTime'
@@ -256,7 +274,6 @@ class NewEventModal extends Component {
                             />
                         </Form.Group>
 
-                        
                         <Form.Group widths='equal'>
                             <Form.Field
                                 id='endDate'
@@ -264,8 +281,8 @@ class NewEventModal extends Component {
                                 label='End Date'
                                 type='date'
                                 onChange={this.handleChange}
-                                error={this.state.dateErr}
-                                value={this.state.date}
+                                error={this.state.endDateErr}
+                                value={this.state.sameDay ? this.state.startDate : this.state.endDate}
                                 disabled={this.state.sameDay}
                                 className={this.state.sameDay ? "inactive" : ""}
                             />
