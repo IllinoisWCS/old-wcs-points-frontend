@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Button, Modal, Form, Select, Message, Alert } from 'semantic-ui-react'
+import { Input, Button, Modal, Form, Select, Message, Checkbox } from 'semantic-ui-react'
 import axios from 'axios'
 import styles from '../styles/newEventModal.scss'
 
@@ -30,7 +30,9 @@ class NewEventModal extends Component {
             // form message
             success: false,
             error: false,
-            msg: '',        
+            msg: '',
+            
+            sameDay: false,
         }
     }
 
@@ -44,6 +46,12 @@ class NewEventModal extends Component {
                 [fieldErr]: false,
             })
         };
+    }
+
+    handleCheck = (_, data) => {
+        this.setState({
+            sameDay: data.checked,
+        })
     }
 
     validateFields = (event) => {
@@ -226,33 +234,62 @@ class NewEventModal extends Component {
                             error={this.state.pointsErr}
                             value={this.state.points}
                         />
-                        <Form.Field
-                            id='date'
-                            control={Input}
-                            label='Date'
-                            type='date'
-                            onChange={this.handleChange}
-                            error={this.state.dateErr}
-                            value={this.state.date}
-                        />
-                        <Form.Field
-                            id='startTime'
-                            control={Input}
-                            label='Start Time'
-                            type='time'
-                            onChange={this.handleChange}
-                            error={this.state.startTimeErr}
-                            value={this.state.startTime}
-                        />
-                        <Form.Field
-                            id='endTime'
-                            control={Input}
-                            label='End Time'
-                            type='time'
-                            onChange={this.handleChange}
-                            error={this.state.endTimeErr}
-                            value={this.state.endTime}
-                        />
+                        
+                        <Form.Group widths='equal'>
+                            <Form.Field
+                                id='date'
+                                control={Input}
+                                label='Start Date'
+                                type='date'
+                                onChange={this.handleChange}
+                                error={this.state.dateErr}
+                                value={this.state.date}
+                            />
+                            <Form.Field
+                                id='startTime'
+                                control={Input}
+                                label='Start Time'
+                                type='time'
+                                onChange={this.handleChange}
+                                error={this.state.startTimeErr}
+                                value={this.state.startTime}
+                            />
+                        </Form.Group>
+
+                        
+                        <Form.Group widths='equal'>
+                            <Form.Field
+                                id='endDate'
+                                control={Input}
+                                label='End Date'
+                                type='date'
+                                onChange={this.handleChange}
+                                error={this.state.dateErr}
+                                value={this.state.date}
+                                disabled={this.state.sameDay}
+                                className={this.state.sameDay ? "inactive" : ""}
+                            />
+                            
+                            <Form.Field
+                                id='endTime'
+                                control={Input}
+                                label='End Time'
+                                type='time'
+                                onChange={this.handleChange}
+                                error={this.state.endTimeErr}
+                                value={this.state.endTime}
+                            />
+                        </Form.Group>
+
+                        <Form.Field>
+                            <Checkbox 
+                                id='sameDay'
+                                label='Same day' 
+                                onChange={this.handleCheck}
+                                checked={this.state.sameDay}
+                            />
+                        </Form.Field>
+                        
                         <Form.Field
                             id='password'
                             control={Input}
