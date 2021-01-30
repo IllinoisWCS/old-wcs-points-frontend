@@ -75,7 +75,8 @@ class Events extends Component {
                             <div className="flex">
                                 <div>
                                     <h3>{event.name}</h3>
-                                    <h5 className="muted">{moment(event.date).format('MMM D YYYY')}
+                                    <h5 className="muted">
+                                        { utils.getEventDate(event) }
                                     </h5>
                                 </div>
                                 <div>

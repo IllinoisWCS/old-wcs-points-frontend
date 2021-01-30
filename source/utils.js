@@ -16,6 +16,20 @@ const sortEventsByNewest = events => {
     });
 }
 
+const getEventDate = event => (
+    event.date ?
+        moment(event.date).format('MMM D YYYY')
+        : ( event.startDate === event.endDate ? 
+            moment(event.startDate).format('MMM D YYYY') 
+            : (
+                moment(event.startDate).format('MMM D YYYY') 
+                + ' - ' 
+                + moment(event.endDate).format('MMM D YYYY')
+            )
+        )
+)
+
 module.exports = {
     sortEventsByNewest,
+    getEventDate,
 }

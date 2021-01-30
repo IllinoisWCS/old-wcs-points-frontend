@@ -4,6 +4,8 @@ import Notifications, { notify } from 'react-notify-toast';
 
 import axios from 'axios';
 
+const utils = require('../utils')
+
 import '../styles/points.scss';
 
 class Points extends Component {
@@ -68,11 +70,7 @@ class Points extends Component {
                 <div>
                     <h3>{event.name}</h3>
                     <h5 className="muted">
-                        { new Date(event.date).toLocaleDateString("en-US", {
-                            year: "numeric", 
-                            month: "short", 
-                            day: "numeric"
-                        }) }
+                        { utils.getEventDate(event) }
                     </h5>
                 </div>
                 <div className="event-point">
