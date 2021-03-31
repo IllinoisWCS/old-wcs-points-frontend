@@ -8,6 +8,9 @@ import styles from '../styles/signin.scss'
 
 import axios from 'axios'
 
+const utils = require('../utils')
+
+
 class SignIn extends Component {
 
     constructor() {
@@ -186,23 +189,18 @@ class SignIn extends Component {
       // const response = await axios.get('http://localhost:3000/api/events');
    
       let events = response.data.result;
-      events.sort(function(a, b) {
-          var dateA = a.date; 
-          var dateB = b.date;
-          if (dateA < dateB) {
-            return 1;
-          }
-          if (dateA > dateB) {
-            return -1;
-          }
-
-          // names must be equal
-          return 0;
+      
+      if (events) {
+        events = events.filter(function(e) { 
+            return !e.name.toLowerCase().includes('office hour') && (!e.private)
+        })
+        utils.sortEventsByNewest(events);
+        this.setState({
+          events: events
         });
-
-      this.setState({
-          events: response.data.result
-      });
+      }
+      
+      
     }
 
     render() {
