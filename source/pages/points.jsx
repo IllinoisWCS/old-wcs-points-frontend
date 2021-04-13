@@ -24,7 +24,8 @@ class Points extends Component {
 
     handleSubmit() {
         if (this.state.value !== "") {
-            axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value).then( (response) => {
+            axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value.toLowerCase())
+            .then( (response) => {
             // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
                 this.setState({
                     totalPoints: response.data.result?.points

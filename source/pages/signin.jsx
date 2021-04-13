@@ -47,14 +47,25 @@ class SignIn extends Component {
   }
 
     async handleSubmit(type) {
-    
         if (type === 'event') {
-          
-          // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
-          const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, { event_id: this.state.event_id, netid: this.state.value, event_key: this.state.event_key});
+          // test local api
+          // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, 
+          //                             { 
+          //                               event_id: this.state.event_id, 
+          //                               netid: this.state.value.toLowerCase(), 
+          //                               event_key: this.state.event_key
+          //                             }
+          //                            );
+          const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, 
+                                      { 
+                                        event_id: this.state.event_id, 
+                                        netid: this.state.value.toLowerCase(), 
+                                        event_key: this.state.event_key
+                                      }
+                                     );
 
           if (res.data.code == 200) {
-            this.registerUser(this.state.value, this.state.event_key)
+            this.registerUser(this.state.value.toLowerCase(), this.state.event_key)
             notify.show("Successfully checked in!", "success");
               this.setState({
                 success: true,
@@ -71,7 +82,7 @@ class SignIn extends Component {
         } 
       } else if (type == 'officeHour' || type == 'committee' || type =='gwc' ) {
 
-        await this.registerUser(this.state.value, this.state.event_key)
+        await this.registerUser(this.state.value.toLowerCase(), this.state.event_key)
 
         if (this.state.error == 'failed') {
           notify.show("Check in is unsuccessful", "error");
@@ -127,7 +138,7 @@ class SignIn extends Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
+      this.setState({value: event.target.value});
     }
 
     handleChangeKey(event) {
@@ -242,13 +253,25 @@ class SignIn extends Component {
                 <br />
                 <h4>NetId</h4>
 
-                <Input fluid placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnterEvent}/>
+                <Input 
+                  fluid 
+                  placeholder='Enter your NetID ...' 
+                  value={this.state.value} 
+                  onChange={this.handleChange} 
+                  onKeyPress={this.handleEnterEvent}
+                />
 
                 <br />
 
                 <h4>Event Key</h4>
 
-                <Input fluid placeholder='Enter the event key...' value={this.state.event_key} onChange={this.handleChangeKey} onKeyPress={this.handleEnterEvent}/>
+                <Input 
+                  fluid 
+                  placeholder='Enter the event key...' 
+                  value={this.state.event_key} 
+                  onChange={this.handleChangeKey} 
+                  onKeyPress={this.handleEnterEvent}
+                />
 
                 <br />
                 { this.state.error }
