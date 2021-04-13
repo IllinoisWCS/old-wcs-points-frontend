@@ -30,6 +30,9 @@ class SignIn extends Component {
             date: new Date(Date.now()).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}),
             errorHeader: '',
             errorContent: '',
+            eventError: false,
+            eventKeyError: false,
+            netIDError: false,
         };
 
         this.handleEventSelect = this.handleEventSelect.bind(this);
@@ -50,14 +53,6 @@ class SignIn extends Component {
 
     async handleSubmit(type) {
         if (type === 'event') {
-          // test local api
-          // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, 
-          //                             { 
-          //                               event_id: this.state.event_id, 
-          //                               netid: this.state.value.toLowerCase(), 
-          //                               event_key: this.state.event_key
-          //                             }
-          //                            );
           if (!this.state.value.match("^[A-Za-z0-9]*$")) {
             this.setState({
               errorHeader: 'Invalid Net ID',
@@ -70,6 +65,46 @@ class SignIn extends Component {
               errorContent: ''
             })
           }
+
+          var netIDError;
+          var eventError;
+          var eventKeyError;
+          if (this.state.value === "") {
+            netIDError = true;
+          } else {
+            netIDError = false;
+          }
+
+          if (this.state.event_key === "") {
+            eventKeyError = true;
+          } else {
+            eventKeyError = false;
+          }
+
+          if (this.state.event_id === "") {
+            eventError = true;
+          } else {
+            eventError = false;
+          }
+
+          this.setState({
+            netIDError: netIDError,
+            eventKeyError: eventKeyError,
+            eventError: eventError
+          })
+
+          if (netIDError || eventKeyError || eventError) {
+            return;
+          }
+          
+          // test local api
+          // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id, 
+          //                             { 
+          //                               event_id: this.state.event_id, 
+          //                               netid: this.state.value.toLowerCase(), 
+          //                               event_key: this.state.event_key
+          //                             }
+          //                            );
           const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, 
                                       { 
                                         event_id: this.state.event_id, 
@@ -263,12 +298,14 @@ class SignIn extends Component {
                     value={this.state.event_id}
                     text={this.state.event_name}
                     default={'Select an Event'}
+                    error={this.state.eventError}
                 />
                 <br />
                 <h4>NetId</h4>
 
                 <Input 
                   fluid 
+                  error={this.state.netIDError}
                   placeholder='Enter your NetID ...' 
                   value={this.state.value} 
                   onChange={this.handleChange} 
@@ -281,6 +318,7 @@ class SignIn extends Component {
 
                 <Input 
                   fluid 
+                  error={this.state.eventKeyError}
                   placeholder='Enter the event key...' 
                   value={this.state.event_key} 
                   onChange={this.handleChangeKey} 
