@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Segment, Card } from 'semantic-ui-react';
+import { Input, Button, Segment, Card, Message } from 'semantic-ui-react';
 import Notifications, { notify } from 'react-notify-toast';
 
 import axios from 'axios';
@@ -15,6 +15,7 @@ class Points extends Component {
             value: '',
             events: [],
             totalPoints: null,
+            error: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,6 +25,19 @@ class Points extends Component {
 
     handleSubmit() {
         if (this.state.value !== "") {
+            if (!this.state.value.match("^[A-Za-z0-9]*$")) {
+                this.setState({
+                    error: true,
+                    totalPoints: null,
+                    events: []
+                })
+                return;
+            } else {
+                this.setState({
+                    error: false
+                })
+            }
+
             axios.get('http://points-api.illinoiswcs.org/api/users/' + this.state.value.toLowerCase())
             .then( (response) => {
             // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
@@ -92,6 +106,13 @@ class Points extends Component {
                     <Input fluid icon='search' placeholder='Enter your NetID ...' value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleEnter}/>
                     <br />
                     <Button onClick={this.handleSubmit} fluid>Check Points</Button>
+                    {this.state.error && 
+                        <Message
+                            error
+                            header='Invalid Net ID'
+                            content='Net ID can only contain numbers and letters.'
+                        />
+                    }
                     <br/>
                     <div className = "points-message">
                         { this.state.totalPoints != null &&
