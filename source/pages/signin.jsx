@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tab, Dropdown, Input, Button, Icon, Link , Popup} from 'semantic-ui-react'
+import { Tab, Dropdown, Input, Button, Message, Icon, Link , Popup} from 'semantic-ui-react'
 import Notifications, {notify} from 'react-notify-toast';
 
 //import NewEvent from '../components/newevent.jsx'
@@ -27,7 +27,9 @@ class SignIn extends Component {
             attendedEvents:[],
             value: '',
             error: '',
-            date: new Date(Date.now()).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"})
+            date: new Date(Date.now()).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}),
+            errorHeader: '',
+            errorContent: '',
         };
 
         this.handleEventSelect = this.handleEventSelect.bind(this);
@@ -56,6 +58,18 @@ class SignIn extends Component {
           //                               event_key: this.state.event_key
           //                             }
           //                            );
+          if (!this.state.value.match("^[A-Za-z0-9]*$")) {
+            this.setState({
+              errorHeader: 'Invalid Net ID',
+              errorContent: 'Net ID can only contain numbers and letters.'
+            })
+            return;
+          } else {
+            this.setState({
+              errorHeader: '',
+              errorContent: ''
+            })
+          }
           const res = await axios.put('http://points-api.illinoiswcs.org/api/events/' + this.state.event_id, 
                                       { 
                                         event_id: this.state.event_id, 
@@ -278,9 +292,14 @@ class SignIn extends Component {
                 
                 <Button fluid onClick={() => this.handleSubmit('event')} >Check-in</Button>
 
-              
+                {(this.state.errorHeader !== '' || this.state.errorContent !== '') && 
+                  <Message
+                    error
+                    header={this.state.errorHeader}
+                    content={this.state.errorContent}
+                  />
+                }
     
-                
           </Tab.Pane> },
          
           { menuItem: 'Committee', render: () =>
