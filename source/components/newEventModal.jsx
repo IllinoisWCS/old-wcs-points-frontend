@@ -195,6 +195,7 @@ class NewEventModal extends Component {
             { key: 'm', text: 'Mentoring', value: 'mentoring' },
             { key: 't', text: 'Explorations', value: 'techTeam' },
             { key: 'g', text: 'General Meeting', value: 'generalMeeting' },
+            { key: 'r', text: 'Growth', value: 'growth' },
             { key: 'x', text: 'Other', value: 'other' }
         ]
 
