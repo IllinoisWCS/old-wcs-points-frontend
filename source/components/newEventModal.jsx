@@ -316,7 +316,7 @@ class NewEventModal extends Component {
                         <Form.Field
                             id='password'
                             control={Input}
-                            label='NetId'
+                            label='NetID'
                             placeholder=''
                             onChange={this.handleChange}
                             error={this.state.passwordErr}

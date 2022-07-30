@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import styles from "../styles/home.scss";
@@ -9,6 +9,7 @@ import Sandbox from "../pages/sandbox.jsx";
 //import NewEvent from '../pages/newevent.jsx'
 
 const Home = () => {
+  const [test, setTest] = useState(0);
   return (
     <Router>
       <div className="Home">
