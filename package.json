@@ -9,7 +9,7 @@
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public/ --history-api-fallback",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d public"
   },
   "author": "Simon Lu",
   "license": "ISC",
