@@ -1,6 +1,7 @@
 {
   "name": "",
   "version": "1.0.0",
+  "homepage": "http://IllinoisWCS.github.io/wcs-points-frontend",
   "description": "",
   "main": "index.jsx",
   "scripts": {
