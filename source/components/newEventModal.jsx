@@ -213,6 +213,7 @@ class NewEventModal extends Component {
                         error={this.state.error}
                     >
                         <Form.Field
+                            required
                             id='name'
                             control={Input}
                             label='Name'
@@ -253,7 +254,6 @@ class NewEventModal extends Component {
                             id='points'
                             control={Input}
                             label='Points'
-                            value={1}
                             onChange={this.handleChange}
                             error={this.state.pointsErr}
                             value={this.state.points}
@@ -314,6 +314,7 @@ class NewEventModal extends Component {
                         </Form.Field>
                         
                         <Form.Field
+                            required
                             id='password'
                             control={Input}
                             label='NetId'
