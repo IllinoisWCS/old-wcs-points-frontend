@@ -43621,6 +43621,7 @@ var NewEventModal = /*#__PURE__*/function (_Component) {
         success: this.state.success,
         error: this.state.error
       }, /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Field, {
+        required: true,
         id: "name",
         control: __WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["e" /* Input */],
         label: "Name",
@@ -43662,14 +43663,14 @@ var NewEventModal = /*#__PURE__*/function (_Component) {
         defaultValue: "public",
         onChange: this.handleChange,
         error: this.state.visibilityErr
-      })), /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Field, __WEBPACK_IMPORTED_MODULE_8__babel_runtime_helpers_defineProperty___default()({
+      })), /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Field, {
         id: "points",
         control: __WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["e" /* Input */],
         label: "Points",
-        value: 1,
         onChange: this.handleChange,
-        error: this.state.pointsErr
-      }, "value", this.state.points)), /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Group, {
+        error: this.state.pointsErr,
+        value: this.state.points
+      }), /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Group, {
         widths: "equal"
       }, /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Field, {
         id: "startDate",
@@ -43713,6 +43714,7 @@ var NewEventModal = /*#__PURE__*/function (_Component) {
         onChange: this.handleCheck,
         checked: this.state.sameDay
       })), /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_9_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["d" /* Form */].Field, {
+        required: true,
         id: "password",
         control: __WEBPACK_IMPORTED_MODULE_10_semantic_ui_react__["e" /* Input */],
         label: "NetId",
