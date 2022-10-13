@@ -40,7 +40,7 @@ class Points extends Component {
 
       axios
         .get(
-          "http://points-api.illinoiswcs.org/api/users/" +
+          "https://points-api.illinoiswcs.org/api/users/" +
             this.state.value.toLowerCase()
         )
         .then((response) => {
@@ -53,7 +53,7 @@ class Points extends Component {
             const eventKeys = response.data.result.attendedEvents;
             const eventsString = eventKeys?.join(",");
             axios
-              .get("http://points-api.illinoiswcs.org/api/events", {
+              .get("https://points-api.illinoiswcs.org/api/events", {
                 params: {
                   event_keys: eventsString,
                 },

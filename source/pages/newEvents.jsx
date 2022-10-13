@@ -14,7 +14,7 @@ const Events = () => {
 
   useEffect(() => {
     axios
-      .get("http://points-api.illinoiswcs.org/api/events")
+      .get("https://points-api.illinoiswcs.org/api/events")
       .then(function (response) {
         let events = response.data.result;
 
