@@ -26,7 +26,7 @@ const Points = () => {
       }
       axios
         .get(
-          "http://points-api.illinoiswcs.org/api/users/" + value.toLowerCase()
+          "https://points-api.illinoiswcs.org/api/users/" + value.toLowerCase()
         )
         .then((response) => {
           // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
@@ -36,7 +36,7 @@ const Points = () => {
             const eventKeys = response.data.result.attendedEvents;
             const eventsString = eventKeys?.join(",");
             axios
-              .get("http://points-api.illinoiswcs.org/api/events", {
+              .get("https://points-api.illinoiswcs.org/api/events", {
                 params: {
                   event_keys: eventsString,
                 },

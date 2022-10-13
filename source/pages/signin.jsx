@@ -116,7 +116,7 @@ class SignIn extends Component {
       //                             }
       //                            );
       const res = await axios.put(
-        "http://points-api.illinoiswcs.org/api/events/" + this.state.event_id,
+        "https://points-api.illinoiswcs.org/api/events/" + this.state.event_id,
         {
           event_id: this.state.event_id,
           netid: this.state.value.toLowerCase(),
@@ -237,7 +237,7 @@ class SignIn extends Component {
   registerUser = async (netid, eventkey) => {
     // const response = await axios.put("http://localhost:3000/api/users/" + netid, {key:eventkey})
     const response = await axios.put(
-      "http://points-api.illinoiswcs.org/api/users/" + netid,
+      "https://points-api.illinoiswcs.org/api/users/" + netid,
       { key: eventkey }
     );
 
@@ -258,7 +258,7 @@ class SignIn extends Component {
   };
   async componentWillMount() {
     const response = await axios.get(
-      "http://points-api.illinoiswcs.org/api/events"
+      "https://points-api.illinoiswcs.org/api/events"
     );
     // const response = await axios.get('http://localhost:3000/api/events');
 
