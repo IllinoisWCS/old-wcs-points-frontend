@@ -37,19 +37,6 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [msg, setMsg] = useState("");
   const [sameDay, setSameDay] = useState(false);
 
-  const handleChange = (_, data) => {
-    const fieldErr = `${data.id}Err`;
-    // this.setState({ // TODO
-    //   [data.id]: data.value,
-    // });
-    if (fieldErr) {
-      setFieldErr(false);
-    }
-    if (data.id === "startDate" && sameDay && endDateErr) {
-      setEndDateErr(false);
-    }
-  };
-
   const handleCheck = (_, data) => {
     setSameDay(data.checked);
     setEndDateErr(false);
@@ -62,8 +49,14 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
     let valid = true;
     for (let field in event) {
       if (field !== "private" && !event[field]) {
-        const fieldErr = `${field}Err`;
-        setFieldErr(true);
+        if (field === "name") setNameErr(true);
+        else if (field == "category") setCategoryErr(true);
+        else if (field === "points") setPointsErr(true);
+        else if (field === "startDate") setStartDateErr(true);
+        else if (field === "endDate") setEndDateErr(true);
+        else if (field === "startTime") setStartTimeErr(true);
+        else if (field === "endTime") setEndTimeErr(true);
+        else if (field === "password") setPasswordErr(true);
         valid = false;
       }
     }
@@ -122,40 +115,40 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
     }
   };
 
-  const handleNameChange = (newName) => {
-    setName(newName);
+  const handleNameChange = (_, data) => {
+    setName(data.value);
   };
 
-  const handleCategoryChange = (newCategory) => {
-    setCategory(newCategory);
+  const handleCategoryChange = (_, data) => {
+    setCategory(data.value);
   };
 
-  const handlePointsChange = (newPoints) => {
-    setPoints(newPoints);
+  const handlePointsChange = (_, data) => {
+    setPoints(data.value);
   };
 
-  const handleStartDateChange = (newStartDate) => {
-    setStartDate(newStartDate);
+  const handleStartDateChange = (_, data) => {
+    setStartDate(data.value);
   };
 
-  const handleEndDateChange = (newEndDate) => {
-    setEndDate(newEndDate);
+  const handleEndDateChange = (_, data) => {
+    setEndDate(data.value);
   };
 
-  const handleStartTimeChange = (newStartTime) => {
-    setStartTime(newStartTime);
+  const handleStartTimeChange = (_, data) => {
+    setStartTime(data.value);
   };
 
-  const handleEndTimeChange = (newEndTime) => {
-    setEndTime(newEndTime);
+  const handleEndTimeChange = (_, data) => {
+    setEndTime(data.value);
   };
 
-  const handlePasswordChange = (newPassword) => {
-    setPassword(newPassword);
+  const handlePasswordChange = (_, data) => {
+    setPassword(data.value);
   };
 
-  const handleVisibilityChange = (newVisibility) => {
-    setVisibility(newVisibility);
+  const handleVisibilityChange = (_, data) => {
+    setVisibility(data.value);
   };
 
   const clearAndToggle = () => {
@@ -193,7 +186,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             control={Input}
             label="Name"
             placeholder="i.e. October General Meeting"
-            onChange={(e) => handleNameChange(e.target.value)}
+            onChange={handleNameChange}
             error={nameErr}
             value={name}
           />
@@ -206,9 +199,8 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               options={categories}
               search
               searchInput={{ id: "category" }}
-              onChange={(e) => handleCategoryChange(e.target.value)}
+              onChange={handleCategoryChange}
               error={categoryErr}
-              value={category}
             />
             <Form.Select
               fluid
@@ -219,7 +211,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
                 { key: "private", text: "Private", value: "private" },
               ]}
               defaultValue="public"
-              onChange={setVisibility}
+              onChange={handleVisibilityChange}
               error={visibilityErr}
             />
           </Form.Group>
@@ -227,7 +219,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             id="points"
             control={Input}
             label="Points"
-            onChange={(e) => handlePointsChange(e.target.value)}
+            onChange={handlePointsChange}
             error={pointsErr}
             value={points}
           />
@@ -238,7 +230,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               control={Input}
               label="Start Date"
               type="date"
-              onChange={(e) => handleStartDateChange(e.target.value)}
+              onChange={handleStartDateChange}
               error={startDateErr}
               value={startDate}
             />
@@ -247,7 +239,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               control={Input}
               label="Start Time"
               type="time"
-              onChange={(e) => handleStartTimeChange(e.target.value)}
+              onChange={handleStartTimeChange}
               error={startTimeErr}
               value={startTime}
             />
@@ -259,7 +251,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               control={Input}
               label="End Date"
               type="date"
-              onChange={(e) => handleEndDateChange(e.target.value)}
+              onChange={handleEndDateChange}
               error={endDateErr}
               value={sameDay ? startDate : endDate}
               disabled={sameDay}
@@ -271,7 +263,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               control={Input}
               label="End Time"
               type="time"
-              onChange={(e) => handleEndTimeChange(e.target.value)}
+              onChange={handleEndTimeChange}
               error={endTimeErr}
               value={endTime}
             />
@@ -292,7 +284,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             control={Input}
             label="NetId"
             placeholder=""
-            onChange={(e) => handlePasswordChange(e.target.value)}
+            onChange={handlePasswordChange}
             error={passwordErr}
             value={password}
           />
