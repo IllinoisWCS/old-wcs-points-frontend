@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Segment, Button } from "semantic-ui-react";
 import "../styles/events.scss";
-import NewEventModal from "../components/newEventModal.jsx";
+import NewEventModal from "../components/newNewEventModal.jsx";
 import Notifications, { notify } from "react-notify-toast";
 const moment = require("moment");
 const utils = require("../utils");

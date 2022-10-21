@@ -115,19 +115,11 @@ class NewEventModal extends Component {
   };
 
   createEvent = async (event) => {
-<<<<<<< HEAD
-    // const res = await axios.post(
-    //   "http://points-api.illinoiswcs.org/api/events",
-    //   event
-    // );
-    const res = await axios.post("http://localhost:3000/api/events", event);
-=======
     const res = await axios.post(
       "https://points-api.illinoiswcs.org/api/events",
       event
     );
     // const res = await axios.post('http://localhost:3000/api/events', event);
->>>>>>> f116c99704212d555c4e5c3251e9e92828765298
     if (res.data.code === 200) {
       this.setState({
         success: true,

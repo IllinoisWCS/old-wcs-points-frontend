@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Input,
   Button,
@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import styles from "../styles/newEventModal.scss";
 
-const NewEventModal = () => {
+const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [points, setPoints] = useState(1);
@@ -20,7 +20,7 @@ const NewEventModal = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [password, setPassword] = useState("");
-  const [visibility, setVisibiility] = useState("public");
+  const [visibility, setVisibility] = useState("public");
 
   const [nameErr, setNameErr] = useState(false);
   const [categoryErr, setCategoryErr] = useState(false);
@@ -30,6 +30,7 @@ const NewEventModal = () => {
   const [startTimeErr, setStartTimeErr] = useState(false);
   const [endTimeErr, setEndTimeErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
+  const [visibilityErr, setVisibilityErr] = useState(false);
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -87,16 +88,15 @@ const NewEventModal = () => {
   };
 
   const createEvent = async (event) => {
-    // const res = await axios.post(
-    //   "http://points-api.illinoiswcs.org/api/events",
-    //   event
-    // );
-    const res = await axios.post("http://localhost:3000/api/events", event);
+    const res = await axios.post(
+      "https://points-api.illinoiswcs.org/api/events",
+      event
+    );
+    // const res = await axios.post("http://localhost:3000/api/events", event);
     if (res.data.code === 200) {
       setSuccess(true);
       setError(false);
-      setMsg(`Success! Event key is ${res.data.result}.`),
-        props.reloadOnClose(); // TODO
+      setMsg(`Success! Event key is ${res.data.result}.`), reloadOnClose();
     } else if (res.data.code === 404) {
       setSuccess(false);
       setError(true);
@@ -122,6 +122,42 @@ const NewEventModal = () => {
     }
   };
 
+  const handleNameChange = (newName) => {
+    setName(newName);
+  };
+
+  const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+  };
+
+  const handlePointsChange = (newPoints) => {
+    setPoints(newPoints);
+  };
+
+  const handleStartDateChange = (newStartDate) => {
+    setStartDate(newStartDate);
+  };
+
+  const handleEndDateChange = (newEndDate) => {
+    setEndDate(newEndDate);
+  };
+
+  const handleStartTimeChange = (newStartTime) => {
+    setStartTime(newStartTime);
+  };
+
+  const handleEndTimeChange = (newEndTime) => {
+    setEndTime(newEndTime);
+  };
+
+  const handlePasswordChange = (newPassword) => {
+    setPassword(newPassword);
+  };
+
+  const handleVisibilityChange = (newVisibility) => {
+    setVisibility(newVisibility);
+  };
+
   const clearAndToggle = () => {
     if (nameErr) setNameErr(false);
     if (categoryErr) setCategoryErr(false);
@@ -131,7 +167,8 @@ const NewEventModal = () => {
     if (startTimeErr) setStartTimeErr(false);
     if (endTimeErr) setEndTimeErr(false);
     if (passwordErr) setPasswordErr(false);
-    props.toggleModal(); // TODO
+    if (visibilityErr) setVisibilityErr(false);
+    toggleModal();
   };
 
   const categories = [
@@ -146,8 +183,7 @@ const NewEventModal = () => {
   ];
 
   return (
-    // TODO
-    <Modal open={props.open} onClose={clearAndToggle} closeIcon>
+    <Modal open={open} onClose={clearAndToggle} closeIcon>
       <Modal.Content>
         <h4 className="modal-heading">All fields are required.</h4>
         <Form onSubmit={validateEvent} success={success} error={error}>
@@ -157,7 +193,7 @@ const NewEventModal = () => {
             control={Input}
             label="Name"
             placeholder="i.e. October General Meeting"
-            onChange={handleChange}
+            onChange={(e) => handleNameChange(e.target.value)}
             error={nameErr}
             value={name}
           />
@@ -170,7 +206,7 @@ const NewEventModal = () => {
               options={categories}
               search
               searchInput={{ id: "category" }}
-              onChange={handleChange}
+              onChange={(e) => handleCategoryChange(e.target.value)}
               error={categoryErr}
               value={category}
             />
@@ -183,7 +219,7 @@ const NewEventModal = () => {
                 { key: "private", text: "Private", value: "private" },
               ]}
               defaultValue="public"
-              onChange={handleChange}
+              onChange={setVisibility}
               error={visibilityErr}
             />
           </Form.Group>
@@ -191,7 +227,7 @@ const NewEventModal = () => {
             id="points"
             control={Input}
             label="Points"
-            onChange={handleChange}
+            onChange={(e) => handlePointsChange(e.target.value)}
             error={pointsErr}
             value={points}
           />
@@ -202,7 +238,7 @@ const NewEventModal = () => {
               control={Input}
               label="Start Date"
               type="date"
-              onChange={handleChange}
+              onChange={(e) => handleStartDateChange(e.target.value)}
               error={startDateErr}
               value={startDate}
             />
@@ -211,7 +247,7 @@ const NewEventModal = () => {
               control={Input}
               label="Start Time"
               type="time"
-              onChange={handleChange}
+              onChange={(e) => handleStartTimeChange(e.target.value)}
               error={startTimeErr}
               value={startTime}
             />
@@ -223,7 +259,7 @@ const NewEventModal = () => {
               control={Input}
               label="End Date"
               type="date"
-              onChange={handleChange}
+              onChange={(e) => handleEndDateChange(e.target.value)}
               error={endDateErr}
               value={sameDay ? startDate : endDate}
               disabled={sameDay}
@@ -235,7 +271,7 @@ const NewEventModal = () => {
               control={Input}
               label="End Time"
               type="time"
-              onChange={handleChange}
+              onChange={(e) => handleEndTimeChange(e.target.value)}
               error={endTimeErr}
               value={endTime}
             />
@@ -256,7 +292,7 @@ const NewEventModal = () => {
             control={Input}
             label="NetId"
             placeholder=""
-            onChange={handleChange}
+            onChange={(e) => handlePasswordChange(e.target.value)}
             error={passwordErr}
             value={password}
           />
@@ -268,3 +304,5 @@ const NewEventModal = () => {
     </Modal>
   );
 };
+
+export default NewEventModal;
