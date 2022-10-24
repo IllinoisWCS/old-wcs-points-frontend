@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Segment, Button } from "semantic-ui-react";
 import "../styles/events.scss";
 import EventModal from "../components/EventModal.jsx";
-import Notifications, { notify } from "react-notify-toast";
-const moment = require("moment");
+import Notifications from "react-notify-toast";
 const utils = require("../utils");
 const axios = require("axios");
 
@@ -22,7 +21,6 @@ const Events = () => {
           events = events.filter(function (e) {
             return !e.name.toLowerCase().includes("office hour") && !e.private;
           });
-          // if (!event.name.toLowerCase().includes('office hours') && !event.name.toLowerCase().includes('girls who code') && !event.name.toLowerCase().includes('committee') ) {
           utils.sortEventsByNewest(events);
           setEvents(events);
         }

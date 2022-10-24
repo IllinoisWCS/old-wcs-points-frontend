@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Tab,
-  Dropdown,
-  Input,
-  Button,
-  Message,
-  Icon,
-  Link,
-  Popup,
-} from "semantic-ui-react";
+import { Tab, Dropdown, Input, Button, Message } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
 import styles from "../styles/signin.scss";

@@ -90,7 +90,7 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
 
   const handleEndTimeChange = (_, data) => {
     const newEndTime = data.value;
-    if (sameDay && endTime && startTime >= newEndTime) setEndTimeErr(true);
+    if (sameDay && newEndTime && startTime >= newEndTime) setEndTimeErr(true);
     else if (
       new Date(startDate).getTime() == new Date(endDate).getTime() &&
       startTime &&
@@ -135,18 +135,18 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   };
 
   const validateEvent = async () => {
-    const event = {
-      name: name,
-      category: category,
-      points: points,
-      startDate: startDate,
-      endDate: sameDay ? startDate : endDate,
-      startTime: startTime,
-      endTime: endTime,
-      password: password,
-      private: visibility === "private",
-    };
     if (validateFields()) {
+      const event = {
+        name: name,
+        category: category,
+        points: points,
+        startDate: startDate,
+        endDate: sameDay ? startDate : endDate,
+        startTime: startTime,
+        endTime: endTime,
+        password: password,
+        private: visibility === "private",
+      };
       await createEvent(event);
     }
   };
