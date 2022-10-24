@@ -57,7 +57,12 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
         startTime >= endTime)
     )
       setStartDateErr(true);
-    else setStartDateErr(false);
+    else {
+      setStartDateErr(false);
+      setEndDateErr(false);
+      setStartTimeErr(false);
+      setEndTimeErr(false);
+    }
     setStartDate(newStartDate);
   };
 
@@ -71,7 +76,12 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
         startTime >= endTime)
     )
       setEndDateErr(true);
-    else setEndDateErr(false);
+    else {
+      setStartDateErr(false);
+      setEndDateErr(false);
+      setStartTimeErr(false);
+      setEndTimeErr(false);
+    }
     setEndDate(newEndDate);
   };
 
@@ -84,7 +94,10 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
       newStartTime >= endTime
     )
       setStartTimeErr(true);
-    else setStartTimeErr(false);
+    else {
+      setStartTimeErr(false);
+      setEndTimeErr(false);
+    }
     setStartTime(newStartTime);
   };
 
@@ -97,7 +110,10 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
       startTime >= newEndTime
     )
       setEndTimeErr(true);
-    else setEndTimeErr(false);
+    else {
+      setStartTimeErr(false);
+      setEndTimeErr(false);
+    }
     setEndTime(newEndTime);
   };
 
@@ -111,8 +127,13 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
 
   const handleSameDayChange = (_, data) => {
     setSameDay(data.checked);
-    setEndDateErr(false);
     if (endTime && startTime && startTime >= endTime) setEndTimeErr(true);
+    else {
+      setStartDateErr(false);
+      setEndDateErr(false);
+      setStartTimeErr(false);
+      setEndTimeErr(false);
+    }
   };
 
   const clearAndToggle = () => {
