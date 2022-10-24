@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Segment, Button } from "semantic-ui-react";
 import "../styles/events.scss";
-import NewEventModal from "../components/newNewEventModal.jsx";
+import EventModal from "../components/EventModal.jsx";
 import Notifications, { notify } from "react-notify-toast";
 const moment = require("moment");
 const utils = require("../utils");
@@ -28,7 +28,6 @@ const Events = () => {
         }
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       });
   }, []);
@@ -47,7 +46,7 @@ const Events = () => {
   return (
     <div>
       <Notifications />
-      <NewEventModal
+      <EventModal
         open={modal}
         toggleModal={handleToggleModal}
         reloadOnClose={handleReloadOnClose}

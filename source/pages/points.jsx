@@ -29,7 +29,6 @@ const Points = () => {
           "https://points-api.illinoiswcs.org/api/users/" + value.toLowerCase()
         )
         .then((response) => {
-          // axios.get('http://localhost:3000/api/users/' + this.state.value).then( (response) => {
           setTotalPoints(response.data.result?.points);
 
           if (response.data.result != null) {

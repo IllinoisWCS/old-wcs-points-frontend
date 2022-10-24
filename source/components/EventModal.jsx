@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import styles from "../styles/newEventModal.scss";
 
-const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
+const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [points, setPoints] = useState(1);
@@ -310,4 +310,4 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
   );
 };
 
-export default NewEventModal;
+export default EventModal;

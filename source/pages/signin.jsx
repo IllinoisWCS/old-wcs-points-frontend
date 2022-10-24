@@ -11,8 +11,6 @@ import {
 } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
-//import NewEvent from '../components/newevent.jsx'
-
 import styles from "../styles/signin.scss";
 
 import axios from "axios";
@@ -107,14 +105,6 @@ class SignIn extends Component {
         return;
       }
 
-      // test local api
-      // const res = await axios.put('http://localhost:3000/api/events/' + this.state.event_id,
-      //                             {
-      //                               event_id: this.state.event_id,
-      //                               netid: this.state.value.toLowerCase(),
-      //                               event_key: this.state.event_key
-      //                             }
-      //                            );
       const res = await axios.put(
         "https://points-api.illinoiswcs.org/api/events/" + this.state.event_id,
         {
@@ -452,10 +442,6 @@ class SignIn extends Component {
 
     return (
       <div className="SignIn">
-        {/* <Button className="SignIn__createEvent" onClick={this.changeMode}>
-                    <Icon name='signup'/>{ this.state.mode ? "Create Event" : "Sign-in"}
-
-                </Button> */}
         <h1>Check-in</h1>
         <br />
         <Notifications />
