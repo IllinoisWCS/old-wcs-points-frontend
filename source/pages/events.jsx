@@ -23,7 +23,6 @@ const Events = () => {
             return !e.name.toLowerCase().includes("office hour") && !e.private;
           });
           // if (!event.name.toLowerCase().includes('office hours') && !event.name.toLowerCase().includes('girls who code') && !event.name.toLowerCase().includes('committee') ) {
-          console.log(events);
           utils.sortEventsByNewest(events);
           setEvents(events);
         }

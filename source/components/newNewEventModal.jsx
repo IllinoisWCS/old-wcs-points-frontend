@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Input,
   Button,
@@ -17,50 +17,121 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [points, setPoints] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [sameDay, setSameDay] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [password, setPassword] = useState("");
   const [visibility, setVisibility] = useState("public");
 
-  const [nameErr, setNameErr] = useState(false);
-  const [categoryErr, setCategoryErr] = useState(false);
   const [pointsErr, setPointsErr] = useState(false);
   const [startDateErr, setStartDateErr] = useState(false);
   const [endDateErr, setEndDateErr] = useState(false);
   const [startTimeErr, setStartTimeErr] = useState(false);
   const [endTimeErr, setEndTimeErr] = useState(false);
-  const [passwordErr, setPasswordErr] = useState(false);
-  const [visibilityErr, setVisibilityErr] = useState(false);
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
-  const [sameDay, setSameDay] = useState(false);
 
-  const handleCheck = (_, data) => {
-    setSameDay(data.checked);
-    setEndDateErr(false);
+  const handleNameChange = (_, data) => {
+    setName(data.value);
   };
 
-  const validateFields = (event) => {
-    if (success) {
-      setSuccess(false);
-    }
-    let valid = true;
-    for (let field in event) {
-      if (field !== "private" && !event[field]) {
-        if (field === "name") setNameErr(true);
-        else if (field == "category") setCategoryErr(true);
-        else if (field === "points") setPointsErr(true);
-        else if (field === "startDate") setStartDateErr(true);
-        else if (field === "endDate") setEndDateErr(true);
-        else if (field === "startTime") setStartTimeErr(true);
-        else if (field === "endTime") setEndTimeErr(true);
-        else if (field === "password") setPasswordErr(true);
-        valid = false;
-      }
-    }
-    return valid;
+  const handleCategoryChange = (_, data) => {
+    setCategory(data.value);
+  };
+
+  const handlePointsChange = (_, data) => {
+    if (!(data.value > 0 && data.value <= 5)) setPointsErr(true);
+    else setPointsErr(false);
+    setPoints(data.value);
+  };
+
+  const handleStartDateChange = (_, data) => {
+    const newStartDate = data.value;
+    if (
+      new Date(newStartDate).getTime() > new Date(endDate).getTime() ||
+      (new Date(newStartDate).getTime() == new Date(endDate).getTime() &&
+        startTime &&
+        endTime &&
+        startTime >= endTime)
+    )
+      setStartDateErr(true);
+    else setStartDateErr(false);
+    setStartDate(newStartDate);
+  };
+
+  const handleEndDateChange = (_, data) => {
+    const newEndDate = data.value;
+    if (
+      new Date(newEndDate).getTime() < new Date(startDate).getTime() ||
+      (new Date(newEndDate).getTime() == new Date(startDate).getTime() &&
+        startTime &&
+        endTime &&
+        startTime >= endTime)
+    )
+      setEndDateErr(true);
+    else setEndDateErr(false);
+    setEndDate(newEndDate);
+  };
+
+  const handleStartTimeChange = (_, data) => {
+    const newStartTime = data.value;
+    if (sameDay && endTime && newStartTime >= endTime) setStartTimeErr(true);
+    else if (
+      new Date(startDate).getTime() == new Date(endDate).getTime() &&
+      endTime &&
+      newStartTime >= endTime
+    )
+      setStartTimeErr(true);
+    else setStartTimeErr(false);
+    setStartTime(newStartTime);
+  };
+
+  const handleEndTimeChange = (_, data) => {
+    const newEndTime = data.value;
+    if (sameDay && endTime && startTime >= newEndTime) setEndTimeErr(true);
+    else if (
+      new Date(startDate).getTime() == new Date(endDate).getTime() &&
+      startTime &&
+      startTime >= newEndTime
+    )
+      setEndTimeErr(true);
+    else setEndTimeErr(false);
+    setEndTime(newEndTime);
+  };
+
+  const handlePasswordChange = (_, data) => {
+    setPassword(data.value);
+  };
+
+  const handleVisibilityChange = (_, data) => {
+    setVisibility(data.value);
+  };
+
+  const handleSameDayChange = (_, data) => {
+    setSameDay(data.checked);
+    setEndDateErr(false);
+    if (endTime && startTime && startTime >= endTime) setEndTimeErr(true);
+  };
+
+  const clearAndToggle = () => {
+    if (pointsErr) setPointsErr(false);
+    if (startDateErr) setStartDateErr(false);
+    if (endDateErr) setEndDateErr(false);
+    if (startTimeErr) setStartTimeErr(false);
+    if (endTimeErr) setEndTimeErr(false);
+    toggleModal();
+  };
+
+  const validateFields = () => {
+    if (success) setSuccess(false);
+    if (pointsErr) return false;
+    if (startDateErr) return false;
+    if (endDateErr) return false;
+    if (startTimeErr) return false;
+    if (endTimeErr) return false;
+    return true;
   };
 
   const validateEvent = async () => {
@@ -75,7 +146,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
       password: password,
       private: visibility === "private",
     };
-    if (validateFields(event)) {
+    if (validateFields()) {
       await createEvent(event);
     }
   };
@@ -85,7 +156,6 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
       "https://points-api.illinoiswcs.org/api/events",
       event
     );
-    // const res = await axios.post("http://localhost:3000/api/events", event);
     if (res.data.code === 200) {
       setSuccess(true);
       setError(false);
@@ -101,67 +171,6 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
         "Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help."
       );
     }
-  };
-
-  const clearFieldsOnSuccess = (event) => {
-    for (let field in event) {
-      if (field === "points") {
-        setPoints(1);
-      } else {
-        // this.setState({ // TODO
-        //   [field]: "",
-        // });
-      }
-    }
-  };
-
-  const handleNameChange = (_, data) => {
-    setName(data.value);
-  };
-
-  const handleCategoryChange = (_, data) => {
-    setCategory(data.value);
-  };
-
-  const handlePointsChange = (_, data) => {
-    setPoints(data.value);
-  };
-
-  const handleStartDateChange = (_, data) => {
-    setStartDate(data.value);
-  };
-
-  const handleEndDateChange = (_, data) => {
-    setEndDate(data.value);
-  };
-
-  const handleStartTimeChange = (_, data) => {
-    setStartTime(data.value);
-  };
-
-  const handleEndTimeChange = (_, data) => {
-    setEndTime(data.value);
-  };
-
-  const handlePasswordChange = (_, data) => {
-    setPassword(data.value);
-  };
-
-  const handleVisibilityChange = (_, data) => {
-    setVisibility(data.value);
-  };
-
-  const clearAndToggle = () => {
-    if (nameErr) setNameErr(false);
-    if (categoryErr) setCategoryErr(false);
-    if (pointsErr) setPointsErr(false);
-    if (startDateErr) setStartDateErr(false);
-    if (endDateErr) setEndDateErr(false);
-    if (startTimeErr) setStartTimeErr(false);
-    if (endTimeErr) setEndTimeErr(false);
-    if (passwordErr) setPasswordErr(false);
-    if (visibilityErr) setVisibilityErr(false);
-    toggleModal();
   };
 
   const categories = [
@@ -187,11 +196,11 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             label="Name"
             placeholder="i.e. October General Meeting"
             onChange={handleNameChange}
-            error={nameErr}
             value={name}
           />
           <Form.Group widths="equal">
             <Form.Field
+              required
               id="category"
               control={Select}
               label={{ children: "Category", htmlFor: "category" }}
@@ -200,9 +209,9 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               search
               searchInput={{ id: "category" }}
               onChange={handleCategoryChange}
-              error={categoryErr}
             />
             <Form.Select
+              required
               fluid
               id="visibility"
               label="Visibility"
@@ -212,10 +221,10 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               ]}
               defaultValue="public"
               onChange={handleVisibilityChange}
-              error={visibilityErr}
             />
           </Form.Group>
           <Form.Field
+            required
             id="points"
             control={Input}
             label="Points"
@@ -226,6 +235,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
 
           <Form.Group widths="equal">
             <Form.Field
+              required
               id="startDate"
               control={Input}
               label="Start Date"
@@ -235,6 +245,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
               value={startDate}
             />
             <Form.Field
+              required
               id="startTime"
               control={Input}
               label="Start Time"
@@ -247,6 +258,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
 
           <Form.Group widths="equal">
             <Form.Field
+              required={!sameDay}
               id="endDate"
               control={Input}
               label="End Date"
@@ -259,6 +271,7 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             />
 
             <Form.Field
+              required
               id="endTime"
               control={Input}
               label="End Time"
@@ -271,9 +284,10 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
 
           <Form.Field>
             <Checkbox
+              required
               id="sameDay"
               label="Same day"
-              onChange={handleCheck}
+              onChange={handleSameDayChange}
               checked={sameDay}
             />
           </Form.Field>
@@ -285,7 +299,6 @@ const NewEventModal = ({ open, toggleModal, reloadOnClose }) => {
             label="NetId"
             placeholder=""
             onChange={handlePasswordChange}
-            error={passwordErr}
             value={password}
           />
           <Message success content={msg} />
