@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import styles from "../styles/home.scss";
-import Events from "../pages/newEvents.jsx";
-import Points from "../pages/points.jsx";
-import SignIn from "../pages/signin.jsx";
-import Sandbox from "../pages/sandbox.jsx";
+import Events from "./Events.jsx";
+import Points from "./Points.jsx";
+import SignIn from "./Signin.jsx";
+import Sandbox from "./Sandbox.jsx";
 
 const Home = () => (
   <Router>

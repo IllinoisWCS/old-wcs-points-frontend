@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Segment, Button } from "semantic-ui-react";
 import "../styles/events.scss";
-import NewEventModal from "../components/newEventModal.jsx";
-import Notifications, { notify } from "react-notify-toast";
-const moment = require("moment");
+import EventModal from "../components/EventModal.jsx";
+import Notifications from "react-notify-toast";
 const utils = require("../utils");
 const axios = require("axios");
 
@@ -22,14 +21,11 @@ const Events = () => {
           events = events.filter(function (e) {
             return !e.name.toLowerCase().includes("office hour") && !e.private;
           });
-          // if (!event.name.toLowerCase().includes('office hours') && !event.name.toLowerCase().includes('girls who code') && !event.name.toLowerCase().includes('committee') ) {
-          console.log(events);
           utils.sortEventsByNewest(events);
           setEvents(events);
         }
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       });
   }, []);
@@ -48,7 +44,7 @@ const Events = () => {
   return (
     <div>
       <Notifications />
-      <NewEventModal
+      <EventModal
         open={modal}
         toggleModal={handleToggleModal}
         reloadOnClose={handleReloadOnClose}
