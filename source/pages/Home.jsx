@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import styles from "../styles/home.scss";
 import Events from "./Events.jsx";
 import Points from "./Points.jsx";
-import SignIn from "./Signin.jsx";
+import SignIn from "./NewSignin.jsx";
 import Sandbox from "./Sandbox.jsx";
 
 const Home = () => (

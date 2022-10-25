@@ -11,30 +11,21 @@ const utils = require("../utils");
 const SignIn = () => {
   const [mode, setMode] = useState(true);
   const [events, setEvents] = useState([]);
+  const [eventOptions, setEventOptions] = useState([]);
   const [eventName, setEventName] = useState("");
   const [eventId, setEventId] = useState("");
   const [eventKey, setEventKey] = useState("");
-  const [point, setPoint] = useState(0);
   const [attendedEvents, setAttendedEvents] = useState([]);
   const [value, setValue] = useState("");
-  const [error, setError] = useState("");
-  const [date, setDate] = useState(
-    new Date(Date.now()).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  );
+  const [success, setSuccess] = useState(true);
+  const [error, setError] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const [errorHeader, setErrorHeader] = useState("");
   const [errorContent, setErrorContent] = useState("");
   const [eventError, setEventError] = useState(false);
   const [eventKeyError, setEventKeyError] = useState(false);
   const [netIdError, setNetIdError] = useState(false);
-
-  const handleAlreadySubmitted = (key) => {
-    return attendedEvents.some((item) => key === item.name);
-  };
 
   const handleSubmit = async (type) => {
     if (type === "event") {
@@ -91,18 +82,9 @@ const SignIn = () => {
         notify.show("Successfully checked in!", "success");
         setSuccess(true);
         setError(false);
-        setMsg(`Success! Updated event with user ${this.state.value}`);
+        setMsg(`Success! Updated event with user ${value}`);
       }
     }
-  };
-
-  const handleStatus = (response) => {
-    if (response.status === 200) {
-      notify.show(response.data.message, "success");
-    } else if (response.status === 404) {
-      notify.show(response.data.message, "error");
-    } else if (response.data.message === 500)
-      notify.show("Server error!", "error");
   };
 
   const handleEnterEvent = (tgt) => {
@@ -174,18 +156,204 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    axios.get("https://points-api.illinoiswcs.org/api/events").then(() => {
-      let events = response.data.result;
+    axios
+      .get("https://points-api.illinoiswcs.org/api/events")
+      .then((response) => {
+        let events = response.data.result;
 
-      if (events) {
-        events = events.filter(function (e) {
-          return !e.name.toLowerCase().includes("office hour") && !e.private;
-        });
-        utils.sortEventsByNewest(events);
-        setEvents(events);
+        if (events) {
+          events = events.filter(function (e) {
+            return !e.name.toLowerCase().includes("office hour") && !e.private;
+          });
+          utils.sortEventsByNewest(events);
+          setEvents(events);
+        }
+      });
+  }, []);
+
+  const panes = [
+    {
+      menuItem: "Event",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h4>Event</h4>
+
+          <Dropdown
+            button
+            className="icon"
+            floating
+            fluid
+            labeled
+            icon="calendar"
+            options={eventOptions}
+            onChange={handleEventSelect}
+            onKeyPress={handleEnterEvent}
+            search
+            value={eventId}
+            text={eventName}
+            default={"Select an Event"}
+            error={eventError}
+          />
+          <br />
+          <h4>NetId</h4>
+
+          <Input
+            fluid
+            error={netIdError}
+            placeholder="Enter your NetID ..."
+            value={value}
+            onChange={handleChange}
+            onKeyPress={handleEnterEvent}
+          />
+
+          <br />
+
+          <h4>Event Key</h4>
+
+          <Input
+            fluid
+            error={eventKeyError}
+            placeholder="Enter the event key..."
+            value={eventKey}
+            onChange={handleChangeKey}
+            onKeyPress={handleEnterEvent}
+          />
+
+          <br />
+          {error}
+
+          <Button fluid onClick={() => handleSubmit("event")}>
+            Check-in
+          </Button>
+
+          {(errorHeader !== "" || errorContent !== "") && (
+            <Message error header={errorHeader} content={errorContent} />
+          )}
+        </Tab.Pane>
+      ),
+    },
+
+    {
+      menuItem: "Committee",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h4>NetId</h4>
+          <Input
+            fluid
+            placeholder="Enter your NetID ..."
+            value={value}
+            onChange={handleChange}
+            onKeyPress={handleEnterCommittee}
+          />
+          <br />
+
+          <h4>Key</h4>
+
+          <Input
+            fluid
+            placeholder="Enter the event key..."
+            value={eventKey}
+            onChange={handleChangeKey}
+            onKeyPress={handleEnterEvent}
+          />
+
+          <br />
+          <Button fluid onClick={() => handleSubmit("committee")}>
+            Check-in
+          </Button>
+        </Tab.Pane>
+      ),
+    },
+
+    {
+      menuItem: "Office Hour",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h4>NetId</h4>
+          <Input
+            fluid
+            placeholder="Enter your NetID ..."
+            value={value}
+            onChange={handleChange}
+            onKeyPress={handleEnterOH}
+          />
+          <br />
+          <h4>Key</h4>
+
+          <Input
+            fluid
+            placeholder="Enter the event key..."
+            value={eventKey}
+            onChange={handleChangeKey}
+            onKeyPress={handleEnterEvent}
+          />
+
+          <br />
+          <Button fluid onClick={() => handleSubmit("officeHour")}>
+            Check-in
+          </Button>
+        </Tab.Pane>
+      ),
+    },
+
+    {
+      menuItem: "Girls Who Code",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h4>NetId</h4>
+          <Input
+            fluid
+            placeholder="Enter your NetID ..."
+            value={value}
+            onChange={handleChange}
+            onKeyPress={handleEnterGWC}
+          />
+          <br />
+          <h4>Key</h4>
+
+          <Input
+            fluid
+            placeholder="Enter the event key..."
+            value={eventKey}
+            onChange={handleChangeKey}
+            onKeyPress={handleEnterEvent}
+          />
+
+          <br />
+          <Button fluid onClick={() => handleSubmit("gwc")}>
+            Check-in
+          </Button>
+        </Tab.Pane>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    let newEventOptions = [];
+    events.forEach((event) => {
+      let eventOption = {};
+      if (!ignoreInDropdown(event.name)) {
+        eventOption.key = event._id;
+        eventOption.text = event.name;
+        eventOption.value = event._id;
+        newEventOptions.push(eventOption);
       }
     });
-  }, []);
+    setEventOptions(newEventOptions);
+  }, [events]);
+
+  return (
+    <div className="SignIn">
+      <h1>Check-in</h1>
+      <br />
+      <Notifications />
+      {mode ? (
+        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+      ) : (
+        <NewEvent />
+      )}
+    </div>
+  );
 };
 
 export default SignIn;
