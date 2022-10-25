@@ -3,7 +3,6 @@ import { Tab, Dropdown, Input, Button, Message } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
 import styles from "../styles/signin.scss";
-
 import axios from "axios";
 
 const utils = require("../utils");
@@ -171,6 +170,20 @@ const SignIn = () => {
       });
   }, []);
 
+  useEffect(() => {
+    let newEventOptions = [];
+    events.forEach((event) => {
+      let eventOption = {};
+      if (!ignoreInDropdown(event.name)) {
+        eventOption.key = event._id;
+        eventOption.text = event.name;
+        eventOption.value = event._id;
+        newEventOptions.push(eventOption);
+      }
+    });
+    setEventOptions(newEventOptions);
+  }, [events]);
+
   const panes = [
     {
       menuItem: "Event",
@@ -327,20 +340,6 @@ const SignIn = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    let newEventOptions = [];
-    events.forEach((event) => {
-      let eventOption = {};
-      if (!ignoreInDropdown(event.name)) {
-        eventOption.key = event._id;
-        eventOption.text = event.name;
-        eventOption.value = event._id;
-        newEventOptions.push(eventOption);
-      }
-    });
-    setEventOptions(newEventOptions);
-  }, [events]);
 
   return (
     <div className="SignIn">
