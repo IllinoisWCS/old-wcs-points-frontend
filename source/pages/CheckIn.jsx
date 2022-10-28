@@ -7,7 +7,7 @@ import axios from "axios";
 
 const utils = require("../utils");
 
-const SignIn = () => {
+const CheckIn = () => {
   const [mode, setMode] = useState(true);
   const [events, setEvents] = useState([]);
   const [eventOptions, setEventOptions] = useState([]);
@@ -342,7 +342,7 @@ const SignIn = () => {
   ];
 
   return (
-    <div className="SignIn">
+    <div className="check-in">
       <h1>Check-in</h1>
       <br />
       <Notifications />
@@ -355,4 +355,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default CheckIn;
