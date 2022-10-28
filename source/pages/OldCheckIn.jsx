@@ -8,7 +8,7 @@ import axios from "axios";
 
 const utils = require("../utils");
 
-class SignIn extends Component {
+class CheckIn extends Component {
   constructor() {
     super();
 
@@ -446,4 +446,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default CheckIn;
