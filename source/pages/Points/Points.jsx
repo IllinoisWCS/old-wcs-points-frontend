@@ -4,9 +4,9 @@ import Notifications, { notify } from "react-notify-toast";
 
 import axios from "axios";
 
-const utils = require("../utils");
+const utils = require("../../utils");
 
-import "../styles/points.scss";
+import "../../styles/points.scss";
 
 const Points = () => {
   const [value, setValue] = useState("");
