@@ -8,17 +8,13 @@ import axios from "axios";
 const utils = require("../utils");
 
 const CheckIn = () => {
-  const [mode, setMode] = useState(true);
   const [events, setEvents] = useState([]);
   const [eventOptions, setEventOptions] = useState([]);
   const [eventName, setEventName] = useState("");
   const [eventId, setEventId] = useState("");
   const [eventKey, setEventKey] = useState("");
-  const [attendedEvents, setAttendedEvents] = useState([]);
   const [value, setValue] = useState("");
-  const [success, setSuccess] = useState(true);
   const [error, setError] = useState(false);
-  const [msg, setMsg] = useState("");
 
   const [errorHeader, setErrorHeader] = useState("");
   const [errorContent, setErrorContent] = useState("");
@@ -60,28 +56,20 @@ const CheckIn = () => {
       if (res.data.code == 200) {
         registerUser(value.toLowerCase(), eventKey);
         notify.show("Successfully checked in!", "success");
-        setSuccess(true);
         setError(false);
-        setMsg(`Success! Updated event with user ${value}`);
       } else if (res.data.code === 404) {
         notify.show("Check in is unsuccessful", "error");
-        setSuccess(false);
         setError(true);
-        setMsg("Failed to update event.");
       }
     } else if (type == "officeHour" || type == "committee" || type == "gwc") {
       await registerUser(value.toLowerCase(), eventKey);
 
       if (error == "failed") {
         notify.show("Check in is unsuccessful", "error");
-        setSuccess(false);
         setError(true);
-        setMsg("Failed to update event.");
       } else {
         notify.show("Successfully checked in!", "success");
-        setSuccess(true);
         setError(false);
-        setMsg(`Success! Updated event with user ${value}`);
       }
     }
   };
@@ -124,10 +112,6 @@ const CheckIn = () => {
     setEventName(data.text);
   };
 
-  const changeMode = () => {
-    setMode(!mode);
-  };
-
   const ignoreInDropdown = (name) => {
     var ignoreCase = name.toLowerCase();
     return (
@@ -144,13 +128,9 @@ const CheckIn = () => {
     );
 
     if (response.data.code == 200) {
-      setAttendedEvents(response.data.result);
-      setSuccess(true);
       setError(false);
-      setMsg(`Success! User: ${netId} information is updated`);
     } else {
       setError("failed");
-      setSuccess(false);
     }
   };
 
@@ -346,11 +326,7 @@ const CheckIn = () => {
       <h1>Check-in</h1>
       <br />
       <Notifications />
-      {mode ? (
-        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-      ) : (
-        <NewEvent />
-      )}
+      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
     </div>
   );
 };
