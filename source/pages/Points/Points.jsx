@@ -1,78 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button, Segment, Card, Message } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
-import axios from "axios";
-
-const utils = require("../../utils");
+import axiosInstance from "../../api";
+import { getEventDate } from "../../utils";
 
 import "./points.scss";
 
 const Points = () => {
-  const [value, setValue] = useState("");
   const [events, setEvents] = useState([]);
-  const [totalPoints, setTotalPoints] = useState(null);
-  const [error, setError] = useState(false);
+  const [points, setPoints] = useState(0);
 
-  const handleSubmit = () => {
-    if (value !== "") {
-      if (!value.match("^[A-Za-z0-9]*$")) {
-        setError(true);
-        setTotalPoints(null);
-        setEvents([]);
-        return;
-      } else {
-        setError(false);
-      }
-      axios
-        .get(
-          "https://points-api.illinoiswcs.org/api/users/" + value.toLowerCase()
-        )
-        .then((response) => {
-          setTotalPoints(response.data.result?.points);
-
-          if (response.data.result != null) {
-            const eventKeys = response.data.result.attendedEvents;
-            const eventsString = eventKeys?.join(",");
-            axios
-              .get("https://points-api.illinoiswcs.org/api/events", {
-                params: {
-                  event_keys: eventsString,
-                },
-              })
-              .then((response) => {
-                setEvents(response.data.result);
-              });
-          } else {
-            setEvents([]);
-            setTotalPoints(0);
-          }
-        });
-    } else {
-      notify.show("Please enter a net id", "error");
-    }
-  };
-
-  const handleEnter = (tgt) => {
-    if (tgt.charCode === 13) {
-      handleSubmit();
-    }
-  };
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  useEffect(() => {
+    axiosInstance.get("/profile").then((res) => {
+      setEvents(res.data.events);
+      setPoints(res.data.points);
+    });
+  }, []);
 
   const _renderAttendedEvents = (events) => {
     return events.map((event, id) => (
       <Segment className="event-detail" padded key={id}>
         <div>
           <h3>{event.name}</h3>
-          <h5 className="muted">{utils.getEventDate(event)}</h5>
+          <h5 className="muted">{getEventDate(event)}</h5>
         </div>
         <div className="event-point">
           <h3>{event.points}</h3>
-          <h5 className="muted">points</h5>
+          <h5 className="muted">{event.points == 1 ? "point" : "points"}</h5>
         </div>
       </Segment>
     ));
@@ -83,31 +38,12 @@ const Points = () => {
       <h1>Points</h1>
       <Card fluid className="Points">
         <Card.Content>
-          <br />
-          <Input
-            fluid
-            icon="search"
-            placeholder="Enter your NetID ..."
-            value={value}
-            onChange={handleChange}
-            onKeyPress={handleEnter}
-          />
-          <br />
-          <Button onClick={handleSubmit} fluid>
-            Check Points
-          </Button>
-          {error && (
-            <Message
-              error
-              header="Invalid Net ID"
-              content="Net ID can only contain numbers and letters."
-            />
-          )}
-          <br />
           <div className="points-message">
-            {totalPoints != null && (
-              <h1>{`You have ${totalPoints} total points.`}</h1>
-            )}
+            {
+              <h1>{`You have ${points} ${
+                points == 1 ? "point" : "points"
+              }.`}</h1>
+            }
           </div>
           {_renderAttendedEvents(events)}
         </Card.Content>
