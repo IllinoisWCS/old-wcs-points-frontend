@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import styles from "../styles/home.scss";
-import Events from "./Events.jsx";
-import Points from "./Points.jsx";
-import CheckIn from "./CheckIn.jsx";
-import Sandbox from "./Sandbox.jsx";
+import styles from "./home.scss";
+import Events from "../Events/Events.jsx";
+import Points from "../Points/Points.jsx";
+import CheckIn from "../CheckIn/CheckIn.jsx";
 
 const Home = () => (
   <Router>
@@ -29,7 +28,6 @@ const Home = () => (
           <Route exact path="/" component={CheckIn} />
           <Route exact path="/points" component={Points} />
           <Route exact path="/events" component={Events} />
-          <Route exact path="/sandbox" component={Sandbox} />
         </div>
       </div>
     </div>
