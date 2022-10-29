@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import styles from "../../styles/home.scss";
+import styles from "./home.scss";
 import Events from "../Events/Events.jsx";
 import Points from "../Points/Points.jsx";
 import CheckIn from "../CheckIn/CheckIn.jsx";

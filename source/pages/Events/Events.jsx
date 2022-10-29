@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Segment, Button } from "semantic-ui-react";
-import "../../styles/events.scss";
+import "./events.scss";
 import EventModal from "./components/EventModal.jsx";
 import Notifications from "react-notify-toast";
 const utils = require("../../utils");

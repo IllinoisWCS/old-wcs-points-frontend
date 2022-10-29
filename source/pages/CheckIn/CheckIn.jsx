@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tab, Dropdown, Input, Button, Message } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
-import styles from "../../styles/signin.scss";
+import styles from "./checkIn.scss";
 import axios from "axios";
 
 const utils = require("../../utils");

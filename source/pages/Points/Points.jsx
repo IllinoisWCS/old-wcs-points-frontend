@@ -6,7 +6,7 @@ import axios from "axios";
 
 const utils = require("../../utils");
 
-import "../../styles/points.scss";
+import "./points.scss";
 
 const Points = () => {
   const [value, setValue] = useState("");

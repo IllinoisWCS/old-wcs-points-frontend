@@ -4,6 +4,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
 
 require("normalize.css");
-require("./styles/main.scss");
+require("./styles.scss");
 
 render(<Home />, document.getElementById("app"));
