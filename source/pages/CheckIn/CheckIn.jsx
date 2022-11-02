@@ -80,12 +80,6 @@ const CheckIn = () => {
     }
   };
 
-  const handleEnterCommittee = (tgt) => {
-    if (tgt.charCode === 13) {
-      handleSubmit("committee");
-    }
-  };
-
   const handleEnterOH = (tgt) => {
     if (tgt.charCode === 13) {
       handleSubmit("office_hours");
