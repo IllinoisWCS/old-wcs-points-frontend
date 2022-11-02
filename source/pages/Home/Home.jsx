@@ -1,34 +1,21 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import styles from "./home.scss";
+import "./home.scss";
+import Navbar from "../../global/Navbar.jsx";
 import Events from "../Events/Events.jsx";
 import Points from "../Points/Points.jsx";
 import CheckIn from "../CheckIn/CheckIn.jsx";
 
 const Home = () => (
   <Router>
-    <div className="Home">
-      <div className="Home__leftNav">
-        <img src="./assets/logo.png" />
-        <div className="Home__flex">
-          <Link className="Home__flexItem" to="/">
-            Check-in
-          </Link>
-          <Link className="Home__flexItem" to="/points">
-            Points
-          </Link>
-          <Link className="Home__flexItem" to="/events">
-            Events
-          </Link>
-        </div>
-      </div>
-      <div className="Home__content">
-        <div>
-          <Route exact path="/" component={CheckIn} />
-          <Route exact path="/points" component={Points} />
-          <Route exact path="/events" component={Events} />
-        </div>
+    <div className="home-container">
+      <Navbar />
+
+      <div className="content-container">
+        <Route exact path="/" component={CheckIn} />
+        <Route path="/points" component={Points} />
+        <Route path="/events" component={Events} />
       </div>
     </div>
   </Router>

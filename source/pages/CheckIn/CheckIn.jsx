@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tab, Dropdown, Input, Button, Message } from "semantic-ui-react";
 import Notifications, { notify } from "react-notify-toast";
 
-import styles from "./checkIn.scss";
+import "./checkIn.scss";
 import axios from "axios";
 
 const utils = require("../../utils");
@@ -80,12 +80,6 @@ const CheckIn = () => {
     }
   };
 
-  const handleEnterCommittee = (tgt) => {
-    if (tgt.charCode === 13) {
-      handleSubmit("committee");
-    }
-  };
-
   const handleEnterOH = (tgt) => {
     if (tgt.charCode === 13) {
       handleSubmit("office_hours");
@@ -115,8 +109,8 @@ const CheckIn = () => {
   const ignoreInDropdown = (name) => {
     var ignoreCase = name.toLowerCase();
     return (
-      ignoreCase.includes("office hours") ||
-      ignoreCase.includes("committee") ||
+      ignoreCase.includes("office hour") ||
+      ignoreCase.includes("open office") ||
       ignoreCase.includes("girls who code")
     );
   };
@@ -142,7 +136,11 @@ const CheckIn = () => {
 
         if (events) {
           events = events.filter(function (e) {
-            return !e.name.toLowerCase().includes("office hour") && !e.private;
+            return (
+              !e.name.toLowerCase().includes("office hour") &&
+              !e.name.toLowerCase().includes("open office") &&
+              !e.private
+            );
           });
           utils.sortEventsByNewest(events);
           setEvents(events);
@@ -225,41 +223,8 @@ const CheckIn = () => {
         </Tab.Pane>
       ),
     },
-
     {
-      menuItem: "Committee",
-      render: () => (
-        <Tab.Pane attached={false}>
-          <h4>NetId</h4>
-          <Input
-            fluid
-            placeholder="Enter your NetID ..."
-            value={value}
-            onChange={handleChange}
-            onKeyPress={handleEnterCommittee}
-          />
-          <br />
-
-          <h4>Key</h4>
-
-          <Input
-            fluid
-            placeholder="Enter the event key..."
-            value={eventKey}
-            onChange={handleChangeKey}
-            onKeyPress={handleEnterEvent}
-          />
-
-          <br />
-          <Button fluid onClick={() => handleSubmit("committee")}>
-            Check-in
-          </Button>
-        </Tab.Pane>
-      ),
-    },
-
-    {
-      menuItem: "Office Hour",
+      menuItem: "Open Office",
       render: () => (
         <Tab.Pane attached={false}>
           <h4>NetId</h4>

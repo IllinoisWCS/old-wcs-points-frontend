@@ -9,7 +9,7 @@ import {
   Checkbox,
 } from "semantic-ui-react";
 import axios from "axios";
-import styles from "./eventModal.scss";
+import "./eventModal.scss";
 
 const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [name, setName] = useState("");

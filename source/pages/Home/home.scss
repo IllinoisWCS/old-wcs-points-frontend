@@ -1,38 +1,11 @@
-.Home {
-    display: flex;
+.home-container {
+  display: flex;
+}
 
-    &__leftNav {
-        background-color: white;
-        flex-basis: 270px;
-        height: 100vh;
-
-        a, a:visited, a:hover {
-            text-decoration: none;
-            color: black;
-        }
-
-        img {
-            width: 100%;
-        }
-    }
-
-    &__flex {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    &__flexItem {
-        flex-basis: 100%;
-        padding: 1.5em;
-        text-align: center;
-        border-bottom: 1px solid black;
-    }
-
-    &__content {
-        background-color: #F1F2F6;
-        flex-grow: 1;
-        padding: 2em;
-        overflow-y: scroll;
-        height: 100vh;
-    }
+.content-container {
+  background-color: #f1f2f6;
+  flex-grow: 1;
+  padding: 2em;
+  overflow-y: scroll;
+  height: 100vh;
 }
