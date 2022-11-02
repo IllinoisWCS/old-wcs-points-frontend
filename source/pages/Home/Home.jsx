@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./home.scss";
+import Navbar from "../../global/Navbar.jsx";
 import Events from "../Events/Events.jsx";
 import Points from "../Points/Points.jsx";
 import CheckIn from "../CheckIn/CheckIn.jsx";
@@ -9,22 +10,7 @@ import CheckIn from "../CheckIn/CheckIn.jsx";
 const Home = () => (
   <Router>
     <div className="home-container">
-      <div className="navbar-container">
-        <a href="http://wcs.illinois.edu">
-          <img src="./assets/logo.png" />
-        </a>
-        <div className="navbar">
-          <Link className="navbar-element" to="/">
-            Check-in
-          </Link>
-          <Link className="navbar-element" to="/points">
-            Points
-          </Link>
-          <Link className="navbar-element" to="/events">
-            Events
-          </Link>
-        </div>
-      </div>
+      <Navbar />
       <div className="content-container">
         <div>
           <Route exact path="/" component={CheckIn} />
