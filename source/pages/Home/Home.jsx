@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import styles from "./home.scss";
+import "./home.scss";
 import Events from "../Events/Events.jsx";
 import Points from "../Points/Points.jsx";
 import CheckIn from "../CheckIn/CheckIn.jsx";
@@ -10,7 +10,9 @@ const Home = () => (
   <Router>
     <div className="Home">
       <div className="Home__leftNav">
-        <img src="./assets/logo.png" />
+        <a href="http://wcs.illinois.edu">
+          <img src="./assets/logo.png" />
+        </a>
         <div className="Home__flex">
           <Link className="Home__flexItem" to="/">
             Check-in

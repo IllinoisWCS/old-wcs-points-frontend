@@ -19,7 +19,11 @@ const Events = () => {
 
         if (events) {
           events = events.filter(function (e) {
-            return !e.name.toLowerCase().includes("office hour") && !e.private;
+            return (
+              !e.name.toLowerCase().includes("office hour") &&
+              !e.name.toLowerCase().includes("open office") &&
+              !e.private
+            );
           });
           utils.sortEventsByNewest(events);
           setEvents(events);
