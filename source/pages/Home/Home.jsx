@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./home.scss";
 import Navbar from "../../global/Navbar.jsx";
@@ -11,12 +11,11 @@ const Home = () => (
   <Router>
     <div className="home-container">
       <Navbar />
+
       <div className="content-container">
-        <div>
-          <Route exact path="/" component={CheckIn} />
-          <Route exact path="/points" component={Points} />
-          <Route exact path="/events" component={Events} />
-        </div>
+        <Route exact path="/" component={CheckIn} />
+        <Route path="/points" component={Points} />
+        <Route path="/events" component={Events} />
       </div>
     </div>
   </Router>
