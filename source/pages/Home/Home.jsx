@@ -8,24 +8,24 @@ import CheckIn from "../CheckIn/CheckIn.jsx";
 
 const Home = () => (
   <Router>
-    <div className="Home">
-      <div className="Home__leftNav">
+    <div className="home-container">
+      <div className="navbar-container">
         <a href="http://wcs.illinois.edu">
           <img src="./assets/logo.png" />
         </a>
-        <div className="Home__flex">
-          <Link className="Home__flexItem" to="/">
+        <div className="navbar">
+          <Link className="navbar-element" to="/">
             Check-in
           </Link>
-          <Link className="Home__flexItem" to="/points">
+          <Link className="navbar-element" to="/points">
             Points
           </Link>
-          <Link className="Home__flexItem" to="/events">
+          <Link className="navbar-element" to="/events">
             Events
           </Link>
         </div>
       </div>
-      <div className="Home__content">
+      <div className="content-container">
         <div>
           <Route exact path="/" component={CheckIn} />
           <Route exact path="/points" component={Points} />
