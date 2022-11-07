@@ -17,9 +17,9 @@ export const cleanEverything = async () => {
     }
     if (totalPoints != member.points) {
       const res = await axios.put(
-        "https://points-api.illinoiswcs.org/api/events/" + eventId,
+        "https://points-api.illinoiswcs.org/api/users/",
         {
-          netid: member,
+          net_id: member,
           points: totalPoints,
         }
       );
@@ -42,7 +42,7 @@ const getAllEvents = async () => {
     const allEvents = response.data.result;
     return allEvents;
   });
-}
+};
 
 const getAllMembers = async () => {
   axios.get("https://points-api.illinoiswcs.org/api/users/").then((response) => {
