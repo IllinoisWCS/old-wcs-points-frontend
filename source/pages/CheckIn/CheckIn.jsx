@@ -9,6 +9,12 @@ const CheckIn = () => {
   const [eventKey, setEventKey] = useState("");
   const [eventKeyError, setEventKeyError] = useState(false);
 
+  useEffect(() => {
+    // Temporary patch to ensure users are authenticated before checking in
+    // TODO: Remove after implementing proper login flow
+    axiosInstance.get("/profile");
+  }, []);
+
   const handleSubmit = async () => {
     const eventKeyError = eventKey === "";
     setEventKeyError(eventKeyError);
