@@ -191,9 +191,8 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     { key: "s", text: "Social", value: "social" },
     { key: "o", text: "Outreach", value: "outreach" },
     { key: "m", text: "Mentoring", value: "mentoring" },
-    { key: "t", text: "Explorations", value: "techTeam" },
+    { key: "t", text: "Explorations", value: "explorations" },
     { key: "g", text: "General Meeting", value: "generalMeeting" },
-    { key: "r", text: "Growth", value: "growth" },
     { key: "x", text: "Other", value: "other" },
   ];
 
