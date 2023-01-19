@@ -8,8 +8,8 @@ import {
   Message,
   Checkbox,
 } from "semantic-ui-react";
-import axios from "axios";
 import "./eventModal.scss";
+import axiosInstance from "../../../api";
 
 const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [name, setName] = useState("");
@@ -20,7 +20,6 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const [sameDay, setSameDay] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [password, setPassword] = useState("");
   const [visibility, setVisibility] = useState("public");
 
   const [pointsErr, setPointsErr] = useState(false);
@@ -117,10 +116,6 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     setEndTime(newEndTime);
   };
 
-  const handlePasswordChange = (_, data) => {
-    setPassword(data.value);
-  };
-
   const handleVisibilityChange = (_, data) => {
     setVisibility(data.value);
   };
@@ -157,15 +152,17 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
 
   const validateEvent = async () => {
     if (validateFields()) {
+      const start = new Date(`${startDate} ${startTime}`).getTime();
+      const end = new Date(
+        `${sameDay ? startDate : endDate} ${endTime}`
+      ).getTime();
+
       const event = {
         name: name,
         category: category,
         points: points,
-        startDate: startDate,
-        endDate: sameDay ? startDate : endDate,
-        startTime: startTime,
-        endTime: endTime,
-        password: password,
+        start: start,
+        end: end,
         private: visibility === "private",
       };
       await createEvent(event);
@@ -173,25 +170,20 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   };
 
   const createEvent = async (event) => {
-    const res = await axios.post(
-      "https://points-api.illinoiswcs.org/api/events",
-      event
-    );
-    if (res.data.code === 200) {
-      setSuccess(true);
-      setError(false);
-      setMsg(`Success! Event key is ${res.data.result}.`), reloadOnClose();
-    } else if (res.data.code === 404) {
-      setSuccess(false);
-      setError(true);
-      setMsg("You are not authorized to create events.");
-    } else if (res.data.code === 500) {
-      setSuccess(false);
-      setError(true);
-      setMsg(
-        "Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help."
-      );
-    }
+    axiosInstance
+      .post("/events", event)
+      .then((res) => {
+        setSuccess(true);
+        setError(false);
+        setMsg(`Success! Event key is ${res.data.key}.`), reloadOnClose();
+      })
+      .catch((err) => {
+        setSuccess(false);
+        setError(true);
+        setMsg(
+          "Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help."
+        );
+      });
   };
 
   const categories = [
@@ -199,9 +191,8 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     { key: "s", text: "Social", value: "social" },
     { key: "o", text: "Outreach", value: "outreach" },
     { key: "m", text: "Mentoring", value: "mentoring" },
-    { key: "t", text: "Explorations", value: "techTeam" },
+    { key: "t", text: "Explorations", value: "explorations" },
     { key: "g", text: "General Meeting", value: "generalMeeting" },
-    { key: "r", text: "Growth", value: "growth" },
     { key: "x", text: "Other", value: "other" },
   ];
 
@@ -313,15 +304,6 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
             />
           </Form.Field>
 
-          <Form.Field
-            required
-            id="password"
-            control={Input}
-            label="NetId"
-            placeholder=""
-            onChange={handlePasswordChange}
-            value={password}
-          />
           <Message success content={msg} />
           <Message error content={msg} />
           <Button type="submit">Submit</Button>
