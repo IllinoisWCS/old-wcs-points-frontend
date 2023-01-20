@@ -1,17 +1,16 @@
 .modal-heading {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .inactive #endDate {
-    background-color: #E0E0E0;
-    color: #616161;
+  background-color: #e0e0e0;
+  color: #616161;
 }
 
-// Overwrite styles of disabled input 
 .disabled {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 
-.field.disabled>label {
-    opacity: 1 !important;
+.field.disabled > label {
+  opacity: 1 !important;
 }

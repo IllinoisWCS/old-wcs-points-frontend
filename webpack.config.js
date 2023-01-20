@@ -33,7 +33,6 @@ const config = {
 
       {
         test: /\.scss$/,
-        // loader: ExtractTextPlugin.extract('css!sass')
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
 
