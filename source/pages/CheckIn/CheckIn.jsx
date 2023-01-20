@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Input, Button } from 'semantic-ui-react';
+import {
+  Tab, Input, Button, Modal,
+} from 'semantic-ui-react';
 import Notifications, { notify } from 'react-notify-toast';
 
 import './checkIn.scss';
