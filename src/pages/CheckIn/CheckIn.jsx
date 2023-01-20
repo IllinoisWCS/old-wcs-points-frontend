@@ -16,9 +16,9 @@ const CheckIn = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const eventKeyError = eventKey === '';
-    setEventKeyError(eventKeyError);
-    if (eventKeyError) {
+    const isEventKeyError = eventKey === '';
+    setEventKeyError(isEventKeyError);
+    if (isEventKeyError) {
       return;
     }
 

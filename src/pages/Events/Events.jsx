@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Segment, Button } from "semantic-ui-react";
-import "./events.scss";
-import EventModal from "./components/EventModal.jsx";
-import Notifications from "react-notify-toast";
-import axiosInstance from "../../api";
-import { getEventDate } from "../../utils";
+import React, { useEffect, useState } from 'react';
+import { Segment, Button } from 'semantic-ui-react';
+import './events.scss';
+import Notifications from 'react-notify-toast';
+import EventModal from './components/EventModal.jsx';
+import axiosInstance from '../../api';
+import { getEventDate } from '../../utils';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -12,7 +12,7 @@ const Events = () => {
   const [reloadOnClose, setReloadOnClose] = useState(false);
 
   useEffect(() => {
-    axiosInstance.get("/events").then((res) => {
+    axiosInstance.get('/events').then((res) => {
       setEvents(res.data);
     });
   }, []);
@@ -45,7 +45,7 @@ const Events = () => {
                 <h3>{event.name}</h3>
                 <h5 className="muted">{getEventDate(event)}</h5>
               </div>
-              <div></div>
+              <div />
             </div>
           </Segment>
         ))}

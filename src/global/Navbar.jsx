@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./navbar.scss";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './navbar.scss';
 
 const Navbar = () => (
   <div className="navbar-container">
     <a href="http://wcs.illinois.edu">
-      <img src="./assets/logo.png" />
+      <img src="./assets/logo.png" alt="wcs logo" />
     </a>
     <div className="navbar">
       <Link className="navbar-element" to="/">
