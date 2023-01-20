@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Segment, Card } from 'semantic-ui-react';
-import Notifications from 'react-notify-toast';
 
 import axiosInstance from '../../api';
 import { getEventDate } from '../../utils';
@@ -48,8 +47,6 @@ const Points = () => {
           {renderAttendedEvents(events)}
         </Card.Content>
       </Card>
-
-      <Notifications />
     </div>
   );
 };

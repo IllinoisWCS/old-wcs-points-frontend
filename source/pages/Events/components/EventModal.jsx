@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Input,
   Button,
@@ -7,20 +7,20 @@ import {
   Select,
   Message,
   Checkbox,
-} from "semantic-ui-react";
-import "./eventModal.scss";
-import axiosInstance from "../../../api";
+} from 'semantic-ui-react';
+import './eventModal.scss';
+import axiosInstance from '../../../api';
 
 const EventModal = ({ open, toggleModal, reloadOnClose }) => {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
   const [points, setPoints] = useState(1);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [sameDay, setSameDay] = useState(false);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [visibility, setVisibility] = useState("public");
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [visibility, setVisibility] = useState('public');
 
   const [pointsErr, setPointsErr] = useState(false);
   const [startDateErr, setStartDateErr] = useState(false);
@@ -30,7 +30,7 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [msg, setMsg] = useState('');
 
   const handleNameChange = (_, data) => {
     setName(data.value);
@@ -49,13 +49,12 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const handleStartDateChange = (_, data) => {
     const newStartDate = data.value;
     if (
-      new Date(newStartDate).getTime() > new Date(endDate).getTime() ||
-      (new Date(newStartDate).getTime() == new Date(endDate).getTime() &&
-        startTime &&
-        endTime &&
-        startTime >= endTime)
-    )
-      setStartDateErr(true);
+      new Date(newStartDate).getTime() > new Date(endDate).getTime()
+      || (new Date(newStartDate).getTime() === new Date(endDate).getTime()
+        && startTime
+        && endTime
+        && startTime >= endTime)
+    ) setStartDateErr(true);
     else {
       setStartDateErr(false);
       setEndDateErr(false);
@@ -68,13 +67,12 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
   const handleEndDateChange = (_, data) => {
     const newEndDate = data.value;
     if (
-      new Date(newEndDate).getTime() < new Date(startDate).getTime() ||
-      (new Date(newEndDate).getTime() == new Date(startDate).getTime() &&
-        startTime &&
-        endTime &&
-        startTime >= endTime)
-    )
-      setEndDateErr(true);
+      new Date(newEndDate).getTime() < new Date(startDate).getTime()
+      || (new Date(newEndDate).getTime() === new Date(startDate).getTime()
+        && startTime
+        && endTime
+        && startTime >= endTime)
+    ) setEndDateErr(true);
     else {
       setStartDateErr(false);
       setEndDateErr(false);
@@ -88,11 +86,10 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     const newStartTime = data.value;
     if (sameDay && endTime && newStartTime >= endTime) setStartTimeErr(true);
     else if (
-      new Date(startDate).getTime() == new Date(endDate).getTime() &&
-      endTime &&
-      newStartTime >= endTime
-    )
-      setStartTimeErr(true);
+      new Date(startDate).getTime() === new Date(endDate).getTime()
+      && endTime
+      && newStartTime >= endTime
+    ) setStartTimeErr(true);
     else {
       setStartTimeErr(false);
       setEndTimeErr(false);
@@ -104,11 +101,10 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     const newEndTime = data.value;
     if (sameDay && newEndTime && startTime >= newEndTime) setEndTimeErr(true);
     else if (
-      new Date(startDate).getTime() == new Date(endDate).getTime() &&
-      startTime &&
-      startTime >= newEndTime
-    )
-      setEndTimeErr(true);
+      new Date(startDate).getTime() === new Date(endDate).getTime()
+      && startTime
+      && startTime >= newEndTime
+    ) setEndTimeErr(true);
     else {
       setStartTimeErr(false);
       setEndTimeErr(false);
@@ -150,50 +146,51 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
     return true;
   };
 
+  const createEvent = async (event) => {
+    axiosInstance
+      .post('/events', event)
+      .then((res) => {
+        setSuccess(true);
+        setError(false);
+        setMsg(`Success! Event key is ${res.data.key}.`);
+        reloadOnClose();
+      })
+      .catch(() => {
+        setSuccess(false);
+        setError(true);
+        setMsg(
+          'Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help.',
+        );
+      });
+  };
+
   const validateEvent = async () => {
     if (validateFields()) {
       const start = new Date(`${startDate} ${startTime}`).getTime();
       const end = new Date(
-        `${sameDay ? startDate : endDate} ${endTime}`
+        `${sameDay ? startDate : endDate} ${endTime}`,
       ).getTime();
 
       const event = {
-        name: name,
-        category: category,
-        points: points,
-        start: start,
-        end: end,
-        private: visibility === "private",
+        name,
+        category,
+        points,
+        start,
+        end,
+        private: visibility === 'private',
       };
       await createEvent(event);
     }
   };
 
-  const createEvent = async (event) => {
-    axiosInstance
-      .post("/events", event)
-      .then((res) => {
-        setSuccess(true);
-        setError(false);
-        setMsg(`Success! Event key is ${res.data.key}.`), reloadOnClose();
-      })
-      .catch((err) => {
-        setSuccess(false);
-        setError(true);
-        setMsg(
-          "Internal Error: event creation was unsuccessful. Please contact the current WCS infra chair for help."
-        );
-      });
-  };
-
   const categories = [
-    { key: "c", text: "Corporate", value: "corporate" },
-    { key: "s", text: "Social", value: "social" },
-    { key: "o", text: "Outreach", value: "outreach" },
-    { key: "m", text: "Mentoring", value: "mentoring" },
-    { key: "t", text: "Explorations", value: "explorations" },
-    { key: "g", text: "General Meeting", value: "generalMeeting" },
-    { key: "x", text: "Other", value: "other" },
+    { key: 'c', text: 'Corporate', value: 'corporate' },
+    { key: 's', text: 'Social', value: 'social' },
+    { key: 'o', text: 'Outreach', value: 'outreach' },
+    { key: 'm', text: 'Mentoring', value: 'mentoring' },
+    { key: 't', text: 'Explorations', value: 'explorations' },
+    { key: 'g', text: 'General Meeting', value: 'generalMeeting' },
+    { key: 'x', text: 'Other', value: 'other' },
   ];
 
   return (
@@ -215,11 +212,11 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
               required
               id="category"
               control={Select}
-              label={{ children: "Category", htmlFor: "category" }}
+              label={{ children: 'Category', htmlFor: 'category' }}
               placeholder="Category"
               options={categories}
               search
-              searchInput={{ id: "category" }}
+              searchInput={{ id: 'category' }}
               onChange={handleCategoryChange}
             />
             <Form.Select
@@ -228,8 +225,8 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
               id="visibility"
               label="Visibility"
               options={[
-                { key: "public", text: "Public", value: "public" },
-                { key: "private", text: "Private", value: "private" },
+                { key: 'public', text: 'Public', value: 'public' },
+                { key: 'private', text: 'Private', value: 'private' },
               ]}
               defaultValue="public"
               onChange={handleVisibilityChange}
@@ -279,7 +276,7 @@ const EventModal = ({ open, toggleModal, reloadOnClose }) => {
               error={endDateErr}
               value={sameDay ? startDate : endDate}
               disabled={sameDay}
-              className={sameDay ? "inactive" : ""}
+              className={sameDay ? 'inactive' : ''}
             />
 
             <Form.Field

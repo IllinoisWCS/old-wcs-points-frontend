@@ -19,6 +19,7 @@
       }
     ],
     "import/extensions": "off",
-    "new-cap": "off"
+    "new-cap": "off",
+    "react/prop-types": "off"
   }
 }
