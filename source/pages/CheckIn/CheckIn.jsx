@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Tab, Dropdown, Input, Button, Message } from "semantic-ui-react";
-import Notifications, { notify } from "react-notify-toast";
+import React, { useState, useEffect } from 'react';
+import { Tab, Input, Button } from 'semantic-ui-react';
+import Notifications, { notify } from 'react-notify-toast';
 
-import "./checkIn.scss";
-import axiosInstance from "../../api";
+import './checkIn.scss';
+import axiosInstance from '../../api';
 
 const CheckIn = () => {
-  const [eventKey, setEventKey] = useState("");
+  const [eventKey, setEventKey] = useState('');
   const [eventKeyError, setEventKeyError] = useState(false);
 
   useEffect(() => {
     // Temporary patch to ensure users are authenticated before checking in
     // TODO: Remove after implementing proper login flow
-    axiosInstance.get("/profile");
+    axiosInstance.get('/profile');
   }, []);
 
   const handleSubmit = async () => {
-    const eventKeyError = eventKey === "";
-    setEventKeyError(eventKeyError);
-    if (eventKeyError) {
+    const isEventKeyError = eventKey === '';
+    setEventKeyError(isEventKeyError);
+    if (isEventKeyError) {
       return;
     }
 
     axiosInstance
-      .patch("/profile", { eventKey: eventKey })
+      .patch('/profile', { eventKey })
       .then((res) => {
-        notify.show(res.data.message, "success");
+        notify.show(res.data.message, 'success');
       })
       .catch((err) => {
-        notify.show(err.response.data.message, "error");
+        notify.show(err.response.data.message, 'error');
       });
   };
 

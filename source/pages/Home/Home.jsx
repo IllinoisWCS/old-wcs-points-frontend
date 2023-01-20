@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import "./home.scss";
-import Navbar from "../../global/Navbar.jsx";
-import Events from "../Events/Events.jsx";
-import Points from "../Points/Points.jsx";
-import CheckIn from "../CheckIn/CheckIn.jsx";
+import './home.scss';
+import Navbar from '../../global/Navbar.jsx';
+import Events from '../Events/Events.jsx';
+import Points from '../Points/Points.jsx';
+import CheckIn from '../CheckIn/CheckIn.jsx';
 
 const Home = () => (
   <Router>
