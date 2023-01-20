@@ -1,0 +1,11 @@
+.home-container {
+  display: flex;
+}
+
+.content-container {
+  background-color: #f1f2f6;
+  flex-grow: 1;
+  padding: 2em;
+  overflow-y: scroll;
+  height: 100vh;
+}

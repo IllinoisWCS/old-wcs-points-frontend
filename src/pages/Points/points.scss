@@ -1,0 +1,23 @@
+.points-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.points-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-detail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.event-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
