@@ -3,7 +3,7 @@ const path = require('path');
 const copy = require('copy-webpack-plugin');
 
 const BUILD_DIR = path.resolve(__dirname, 'public');
-const APP_DIR = path.resolve(__dirname, 'src');
+const APP_DIR = path.resolve(__dirname, 'source');
 
 const config = {
   entry: {
@@ -17,7 +17,7 @@ const config = {
     publicPath: '/',
   },
 
-  context: path.join(__dirname, 'src'),
+  context: path.join(__dirname, 'source'),
 
   module: {
     loaders: [
