@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Tab, Input, Button, Modal,
+  Tab, Input, Modal, Button,
 } from 'semantic-ui-react';
 import Notifications, { notify } from 'react-notify-toast';
 

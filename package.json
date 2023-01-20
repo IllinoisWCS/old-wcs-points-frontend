@@ -9,20 +9,18 @@
     "build": "webpack",
     "dev": "webpack-dev-server --content-base public/ --history-api-fallback",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d public"
+    "deploy": "gh-pages -d public",
+    "prepare": "husky install"
   },
   "author": "Simon Lu",
   "license": "ISC",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.{js, jsx, scss}": [
+      "prettier --write",
       "eslint --fix",
       "git add"
-    ]
+    ],
+    "*.js": "eslint --cache --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
