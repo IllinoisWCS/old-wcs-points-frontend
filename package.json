@@ -15,7 +15,7 @@
   "author": "Simon Lu",
   "license": "ISC",
   "lint-staged": {
-    "**/*.{js, jsx, scss}": [
+    "source/**/*.{js,jsx,scss}": [
       "prettier --write",
       "eslint --fix"
     ],
